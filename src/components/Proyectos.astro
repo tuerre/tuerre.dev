@@ -35,7 +35,7 @@ const projectInfo = [
     <div class="max-w-7xl">
       <h2 class="info-habilities text-[#f2ce5a] font-bold text-[27px] mb-2">Proyectos</h2>
 
-      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projectInfo.map((project) => (
           <div class="flex flex-col gap-0.5 border border-gray-500/70 rounded-lg p-4">
           <h4 class="info-habilities font-medium text-xl">{project.title}</h4>
@@ -64,9 +64,3 @@ const projectInfo = [
       </div>
     </div>
 </div>
-
-<style>
-  .info-habilities::selection {
-        background-color: rgba(255, 255, 255, 0.078);
-    }
-</style>
