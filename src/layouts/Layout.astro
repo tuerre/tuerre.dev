@@ -4,15 +4,17 @@ import Footer from "../components/Footer.astro"
 
 import "../styles/global.css";
 import "@fontsource-variable/onest";
+
+const { pageLang = "es", pageTitle = "Porfolio de Jendry Abreu - Desarrollador Web Full-Stack" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={pageLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>Porfolio de Jendry Abreu - Desarrollador Web Full-Stack</title>
+		<title>{pageTitle}</title>
 	</head>
 	<body class="relative text-white">
 		<div
