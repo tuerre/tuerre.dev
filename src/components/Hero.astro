@@ -18,10 +18,10 @@ import LinkedInIcon from "./icons/LinkedIn.astro"
         <div class="absolute bottom-0.5 right-0.5 bg-green-500/80 size-3.5 rounded-full"></div>
         </div>
         <div class="flex flex-col">
-          <h1 class="text-[28px] font-bold text-[#F1F1F1] sm:text-4xl">Jendry De León Abreu</h1>
+          <h1 class="text-[25px] font-bold text-[#F1F1F1] sm:text-4xl">Jendry De León Abreu</h1>
           <div class="flex items-center gap-2 mt-0.5">
             <SiteIcon />
-            <span>
+            <span class="text-[13px]">
               Santo Domingo, República Dominicana
             </span>
           </div>
@@ -34,18 +34,20 @@ import LinkedInIcon from "./icons/LinkedIn.astro"
         y 1y desarrollando como tal. I'm a GoodBoy. 
       </p>
 
-      <nav class="flex flex-wrap items-center gap-4 mt-5 select-none">
-        <a href="mailto:tuerredev@gmail.com" class="flex items-center gap-2 font-medium text-[16px] px-[50px] py-[10px] rounded-full bg-gradient-to-r from-[#213f67] to-[#1b1e2c] via-[#1c2438] transition-all duration-200 text-[#F1F1F1] border-[2px] border-[#2f5675] hover:brightness-[0.85]" title="Enviar Mail a Jendry Abreu">
+      <nav class="w-full flex flex-wrap md:flex-row md:flex-nowrap items-center gap-4 mt-5 select-none">
+        <a href="mailto:tuerredev@gmail.com" class="w-full flex items-center justify-center gap-2 font-medium text-[16px] px-[50px] py-[10px] rounded-full bg-gradient-to-r from-[#213f67] to-[#1b1e2c] via-[#1c2438] transition-all duration-200 text-[#F1F1F1] border-[2px] border-[#2f5675] hover:brightness-[0.85]" title="Enviar Mail a Jendry Abreu">
           <MailIcon />
           Contacto
         </a>
-        <a href="https://github.com/tuerre" class="flex items-center gap-2 font-medium text-[16px] px-[50px] py-[10px] rounded-full bg-gradient-to-r from-[#1b1e2c] via-[#1c2438] to-[#213f67] transition-all duration-200 text-[#F1F1F1] border-[2px] border-[#2f5675] hover:brightness-[0.85]" title="Mi perfil de GitHub">
-          <GitHubIcon />
-          GitHub
-        </a>
-        <a href="https://linkedin.com/in/tuerre" class="transition-all duration-200 hover:brightness-[0.85]" title="Perfil de LinkedIn de Jendry Abreu">
-          <LinkedInIcon />
-        </a>
+        <div class="flex w-full items-center gap-3">
+          <a href="https://github.com/tuerre" class="w-full flex items-center justify-center gap-2 font-medium text-[16px] px-[50px] py-[10px] rounded-full bg-gradient-to-r from-[#1b1e2c] via-[#1c2438] to-[#213f67] transition-all duration-200 text-[#F1F1F1] border-[2px] border-[#2f5675] hover:brightness-[0.85]" title="Mi perfil de GitHub">
+            <GitHubIcon />
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/tuerre" class="transition-all duration-200 hover:brightness-[0.85]" title="Perfil de LinkedIn de Jendry Abreu">
+            <LinkedInIcon />
+          </a>
+        </div>
       </nav>
     </div>
 </div>
