@@ -5,7 +5,8 @@ import SectionContainer from '../components/SectionContainer.astro';
 import AboutMe from '../components/AboutMe.astro';
 import Habilidades from '../components/Habilidades.astro';
 import Proyectos from '../components/Proyectos.astro';
-import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+
 ---
 
 <Layout>
@@ -34,10 +35,10 @@ import Contacto from '../components/Contacto.astro';
             </AboutMe>
         </SectionContainer>
 
-        <SectionContainer id="contacto" class="py-16 md:py-36 relative">
-            <Contacto>
+        <SectionContainer id="contacto" class="relative bottom-4">
+            <Footer>
                 </slot>
-            </Contacto>
+            </Footer>
         </SectionContainer>
     </main>
 </Layout>
