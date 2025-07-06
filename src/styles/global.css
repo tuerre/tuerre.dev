@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@plugin "flyonui";
+@import "flyonui/variants.css";
+@source "./node_modules/flyonui/dist/index.js";
+
+body {
+    @apply bg-[#0D0E12] text-[#F1F1F1];
+}

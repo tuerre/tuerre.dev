@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import AboutMe from '../components/AboutMe.astro';
+import Habilidades from '../components/Habilidades.astro';
+import Proyectos from '../components/Proyectos.astro';
+import Contacto from '../components/Contacto.astro';
+---
+
+<Layout>
+    <main>
+        <SectionContainer id="hero" class="pt-16 md:py-28 relative">
+            <Hero>
+                </slot>
+            </Hero>
+        </SectionContainer>
+        
+        <SectionContainer id="habilidades" class="py-3 relative">
+            <Habilidades>
+                </slot>
+            </Habilidades>
+        </SectionContainer>
+
+        <SectionContainer id="proyectos" class="py-16 md:py-36 relative">
+            <Proyectos>
+                </slot>
+            </Proyectos>
+        </SectionContainer>
+
+        <SectionContainer id="sobre-mi" class="py-16 md:py-36 relative">
+            <AboutMe>
+                </slot>
+            </AboutMe>
+        </SectionContainer>
+
+        <SectionContainer id="contacto" class="py-16 md:py-36 relative">
+            <Contacto>
+                </slot>
+            </Contacto>
+        </SectionContainer>
+    </main>
+</Layout>
