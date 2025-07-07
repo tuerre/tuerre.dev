@@ -1,4 +1,44 @@
----
+<!-- ---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionContainer from '../components/SectionContainer.astro';
+import AboutMe from '../components/AboutMe.astro';
+import Habilidades from '../components/Habilidades.astro';
+import Proyectos from '../components/Proyectos.astro';
+import Footer from '../components/Footer.astro';
+
 ---
 
-<h1>english page base</h1>
+<Layout lang="en", pageTitle="Jendry's De León Portfolio - FullStack Web Developer">
+    <main>
+        <SectionContainer id="hero" class="pt-16 md:py-28 relative">
+            <Hero>
+                </slot>
+            </Hero>
+        </SectionContainer>
+        
+        <SectionContainer id="habilidades" class="py-3 relative">
+            <Habilidades>
+                </slot>
+            </Habilidades>
+        </SectionContainer>
+
+        <SectionContainer id="proyectos" class="py-16 md:py-36 relative">
+            <Proyectos>
+                </slot>
+            </Proyectos>
+        </SectionContainer>
+
+        <SectionContainer id="sobre-mi" class="py-16 md:py-36 relative">
+            <AboutMe>
+                </slot>
+            </AboutMe>
+        </SectionContainer>
+
+        <SectionContainer id="contacto" class="px-3 relative bottom-4">
+            <Footer>
+                </slot>
+            </Footer>
+        </SectionContainer>
+    </main>
+</Layout> -->
