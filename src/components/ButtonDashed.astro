@@ -1,0 +1,9 @@
+---
+import GitHubIcon from "./icons/GitHub.astro"
+
+const { url } = Astro.props
+---
+<a href={url} class="group inline-flex items-center justify-center gap-2 px-2 py-1 rounded-lg border-[3px] border-dashed border-[#18497c]/70 bg-gradient-to-tr from-[#0f3156] to-transparent text-[#419ec5] shadow-inner shadow-black/50 font-semibold text-[15px] transition-all duration-300 hover:opacity-70">
+    <GitHubIcon />
+    <span class="button-dashed">Proyecto</span>
+</a>
