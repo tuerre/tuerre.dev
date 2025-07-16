@@ -5,16 +5,38 @@ import Footer from "../components/Footer.astro"
 import "../styles/global.css";
 import "@fontsource-variable/onest";
 
-const { pageLang = "es", pageTitle = "Porfolio de Jendry Abreu - Desarrollador Web Full-Stack" } = Astro.props;
+const { pageTitle = "Porfolio de Jendry Abreu - Desarrollador Web Full-Stack", description = "Contrata a Jendry para brindar la mejor experiencia en tu web. Desarrollador Web Moderno. Especializado en crear portales web únicos.", keywords = "Porfolio, Jendry De León Abreu, Desarrollador Web Full-Stack" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={pageLang}>
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<meta name="robots" content="index, follow">
+
+			<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta property="twitter:domain" content="tuerre.vercel.app">
+		<meta property="twitter:url" content="https://tuerre.vercel.app/">
+		<meta name="twitter:title" content="Porfolio de Jendry Abreu - Desarrollador Web Full-Stack">
+		<meta name="twitter:description" content="Contrata a Jendry para brindar la mejor experiencia en tu web. Desarrollador Web Moderno. Especializado en crear portales web únicos.">
+		<meta name="twitter:image" content="https://tuerre.vercel.app/og.jpg">
+
+			<!-- Open Graph Meta Tags -->
+		<meta property="og:title" content="Porfolio de Jendry Abreu - Desarrollador Web Full-Stack">
+		<meta property="og:description" content="Contrata a Jendry para brindar la mejor experiencia en tu web. Desarrollador Web Moderno. Especializado en crear portales web únicos.">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://tuerre.vercel.app/">
+		<meta property="og:image" content="https://tuerre.vercel.app/og.jpg">
+		<meta property="og:image:width" content="1200">
+		<meta property="og:image:height" content="630">
+		<meta property="og:site_name" content="Porfolio de Jendry Abreu">
+		<meta property="og:locale" content="es_ES">
 	</head>
 	<body class="relative text-white">
 		<div
