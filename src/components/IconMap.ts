@@ -3,8 +3,8 @@ import type { AstroComponentFactory } from 'astro/runtime'
 import Cpp from './icons/c++.astro'
 import CSS from './icons/css.astro'
 import Git from './icons/git.astro'
+import HTML5 from './icons/html.astro'
 import MySQL from './icons/mysql.astro'
-import HTML5 from './icons/html5.astro'
 import Figma from './icons/figma.astro'
 import Csharp from './icons/csharp.astro'
 import NodeJS from './icons/nodejs.astro'
@@ -14,6 +14,7 @@ import AstroIcon from './icons/astro.astro'
 import Windows from './icons/windows.astro'
 import Tailwind from './icons/tailwind.astro'
 import Windsurf from './icons/windsurf.astro'
+import Supabase from './icons/supabase.astro'
 import SqlServer from './icons/sqlserver.astro'
 import DiscordJS from './icons/discordjs.astro'
 import JavaScript from './icons/javascript.astro'
@@ -28,7 +29,8 @@ export const iconMap: Record<string, AstroComponentFactory> = {
   'typescript': TypeScript,
   'sqlserver': SqlServer,
   'mysql': MySQL,
-  'html5': HTML5,
+  'supabase': Supabase,
+  'html': HTML5,
   'css': CSS,
   'tailwind': Tailwind,
   'astro': AstroIcon,
