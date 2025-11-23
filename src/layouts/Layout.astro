@@ -5,44 +5,41 @@ import Footer from "../components/Footer.astro"
 import "../styles/global.css";
 import "@fontsource-variable/onest";
 
-const { pageTitle = "Jendry De León Abreu - Desarrollador Web FullStack", description = "Contrata a Jendry para brindar la mejor experiencia en tu web. Desarrollador Web Moderno. Especializado en crear portales web únicos.", keywords = "Porfolio, Jendry De León Abreu, Desarrollador Web Full-Stack" } = Astro.props;
+const { pageTitle = "Jendry De León Abreu - Desarrollador Web FullStack", description = "Desarrollador Web Full-Stack en evolución. +2 años siendo entusiasta de la programación y 1y desarrollando como tal.", keywords = "Porfolio, Jendry De León Abreu, Desarrollador Web Full-Stack" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{pageTitle}</title>
 		<meta name="description" content={description} />
 		<meta name="keywords" content={keywords} />
-		<meta name="robots" content="index, follow">
 
-			<!-- Twitter Meta Tags -->
-		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:domain" content="tuerre.vercel.app">
-		<meta property="twitter:url" content="https://tuerre.vercel.app/">
-		<meta name="twitter:title" content="Porfolio de Jendry Abreu - Desarrollador Web Full-Stack">
-		<meta name="twitter:description" content="Contata a Jendry para brindar la mejor experiencia en tu web. Desarrollrador Web Moderno. Especializado en crear portales web únicos.">
-		<meta name="twitter:image" content="https://tuerre.vercel.app/og.jpg">
-			<!-- Open Graph Meta Tags -->
-		<meta property="og:title" content="Porfolio de Jendry Abreu - Desarrollador Web Full-Stack">
-		<meta property="og:description" content="Contrata a Jendry para brindar la mejor experiencia en tu web. Desarrollador Web Moderno. Especializado en crear portales web únicos.">
-		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://tuerre.vercel.app/">
-		<meta property="og:image" content="https://tuerre.vercel.app/og.jpg">
-		<meta property="og:site_name" content="Porfolio de Jendry Abreu">
-		<meta property="og:locale" content="es_ES">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="robots" content="index, follow" />
+
+		<title>{pageTitle}</title>
+
+		<!-- Global OG Meta -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Jendry De León Abreu" />
+		<meta name="author" content="tuerre" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Jendry De León Abreu" />
+		<meta name="twitter:description" content="Building amazing things" />
+		<meta name="twitter:image:alt" content="Jendry De León Abreu" />
+		<meta name="twitter:image" content="https://tuerre.vercel.app/og.jpg" />
+		<meta name="twitter:creator" content="tuerre" />
 
 		<meta name="google-site-verification" content="EbPOgNvdlarDNR9HF-Vwf3JBZlBYn-lsqw7lZXQIg0k" />
 	</head>
 	<body class="relative text-white">
-		<div
-			class="absolute top-0 bottom-0 min-h-screen w-full bg-gray-50 dark:bg-gray-950
-      		bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
-      		dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
-		></div>
+		<div class="absolute top-0 bottom-0 min-h-screen w-full bg-gray-50 dark:bg-gray-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+		</div>
+
 		<Header />
 			<slot />
 		<Footer />
