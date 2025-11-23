@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro"
 import "../styles/global.css";
 import "@fontsource-variable/onest";
 
-const { pageTitle = "Jendry De León Abreu - Desarrollador Web FullStack", description = "Desarrollador Web Full-Stack en evolución. +2 años siendo entusiasta de la programación y 1y desarrollando como tal.", keywords = "Porfolio, Jendry De León Abreu, Desarrollador Web Full-Stack" } = Astro.props;
+const { pageTitle = "Jendry De León Abreu - Desarrollador Web FullStack", description = "Desarrollador Web FullStack especializado en el desarrollo de aplicaciones web modernas y escalables en React y NodeJS, con sede en Santo Domingo, República Dominicana.", keywords = "Jendry De León Abreu, Desarrollador Web Full-Stack, Portafolio, Diseño Web, React, Astro, NodeJS, Experiencia Técnica, Desarrollo de Software, Desarrollo Web, Santo Domingo, República Dominicana", } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,10 +18,12 @@ const { pageTitle = "Jendry De León Abreu - Desarrollador Web FullStack", descr
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="robots" content="index, follow" />
-
+		
 		<title>{pageTitle}</title>
-
+		
 		<!-- Global OG Meta -->
+		<script type="application/ld+json"> { "@context": "https://schema.org", "@type": "WebSite", "name": "Porfolio de Jendry De León Abreu", "url": "https://tuerre.vercel.app/" }</script>
+		<meta property="og:site_name" content="Porfolio de Jendry De León Abreu">
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Jendry De León Abreu" />
 		<meta name="author" content="tuerre" />
