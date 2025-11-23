@@ -1,5 +1,14 @@
 ---
-import OutOfCombat from "../components/OutOfCombat.astro";
+import Layout from "../layouts/Layout.astro";
+import SectionContainer from "../components/SectionContainer.astro";
 ---
 
-<OutOfCombat error="404" errorDesc="Esta página no ha sido encontrada..." />
+<Layout>
+    <SectionContainer class="relative top-[50vh] translate-y-[-50%]">
+        <main class="flex flex-col gap-3 items-center justify-center">
+            <h3 class="font-normal text-2xl">error <span class="font-bold">404</span></h3>
+            <span>La página que buscas no ha sido encontrada...</span>
+            <a href="/" class="underline">Volver al inicio</a>
+        </main>
+    </SectionContainer>
+</Layout>
