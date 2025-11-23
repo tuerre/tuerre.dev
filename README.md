@@ -1,11 +1,6 @@
-## want to know more about me?
-
-<<<<<<< HEAD
-Check my [LinkedIn](https://linkedin.com/in/tuerre), [GitHub](https://github.com/tuerre) or [Instagram](https://instagram.com/de1eonzz) <3
-
 <div align="center">
 <a href="https://tuerre.vercel.app">
-<img src="https://tuerre.vercel.app/og.jpg">
+<img src="https://tuerre.vercel.app/og-readme.webp">
 </a>
 <p></p>
 </div>
