@@ -1,5 +1,5 @@
 ---
-import { iconMap } from "../components/IconMap"
+import { iconMap } from "../components/IconMap";
 
 const tituloHabilidades = [
   {
@@ -15,6 +15,18 @@ const tituloHabilidades = [
     label: "javascript",
   },
   {
+    title: "ReactJS",
+    label: "reactjs",
+  },
+  {
+    title: "React Native",
+    label: "react-native",
+  },
+  {
+    title: "NextJS",
+    label: "nextjs",
+  },
+  {
     title: "NodeJS",
     label: "nodejs",
   },
@@ -23,12 +35,20 @@ const tituloHabilidades = [
     label: "typescript",
   },
   {
+    title: "ExpressJS",
+    label: "expressjs",
+  },
+  {
     title: "SqlServer",
     label: "sqlserver",
   },
   {
     title: "MySQL",
     label: "mysql",
+  },
+  {
+    title: "PostgreSQL",
+    label: "postgresql",
   },
   {
     title: "Supabase",
@@ -59,52 +79,36 @@ const tituloHabilidades = [
     label: "github",
   },
   {
-    title: "DiscordJS",
-    label: "discordjs",
-  },
-  {
-    title: "Figma",
-    label: "figma",
-  },
-  {
     title: "VSCode",
     label: "vscode",
   },
-  {
-    title: "VisualStudio",
-    label: "visualstudio",
-  },
-  {
-    title: "Windsurf",
-    label: "windsurf",
-  },
-  {
-    title: "Windows",
-    label: "windows",
-  },
-]
+];
 ---
 
 <div class="max-w-7xl mx-auto px-4 mt-20 md:mt-0">
-    <div class="max-w-7xl">
-      <h2 class="title-habilities text-[#f2ce5a] font-bold text-[27px] mb-1">Habilidades</h2>
+  <div class="max-w-7xl">
+    <h2 class="title-habilities text-[#f2ce5a] font-bold text-[27px] mb-1">
+      Habilidades
+    </h2>
 
-      <div class="max-w-7xl">
-        <ul class="flex flex-wrap gap-2">
-          {
-            tituloHabilidades.map((hability) => {
-              const Icon = iconMap[hability.label];
-              return (
-                <li>
-                  <div class="bg-gray-800/30 p-1.5 rounded max-h-9 flex items-center gap-1 [&>svg]:w-4 [&>svg]:h-4">
-                    {Icon ? <Icon /> : null}
-                    <span class="text-hability text-[14px]">{hability.title}</span>
-                  </div>
-                </li>
-              )
-            })
-          }
-        </ul>
-      </div>
+    <div class="max-w-7xl">
+      <ul class="flex flex-wrap gap-2">
+        {
+          tituloHabilidades.map((hability) => {
+            const Icon = iconMap[hability.label];
+            return (
+              <li>
+                <div class="bg-gray-800/30 p-1.5 rounded max-h-9 flex items-center gap-1 [&>svg]:w-4 [&>svg]:h-4">
+                  {Icon ? <Icon /> : null}
+                  <span class="text-hability text-[14px]">
+                    {hability.title}
+                  </span>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
     </div>
+  </div>
 </div>
