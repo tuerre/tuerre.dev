@@ -1,40 +1,53 @@
 ---
-import ButtonDashed from "./ButtonDashed.astro"
+import ButtonDashed from "./ButtonDashed.astro";
 
 const projectInfo = [
-{
-  "title": "FluxoApp – Gestión Inteligente de Finanzas Personales",
-  "description": "Aplicación web moderna para gestión de gastos personales con enfoque en UX, rendimiento y escalabilidad. Permite registrar gastos, categorías, presupuestos y métodos de pago, visualizar reportes financieros interactivos, comparar periodos y exportar a Excel. Incluye autenticación segura, modo oscuro y multi-moneda.",
-  "url": "https://github.com/tuerre/FluxoApp",
-  "languages": [
-    "Next.js",
-    "React",
-    "NodeJS",
-    "Supabase",
-    "PostgreSQL",
-    "TailwindCSS",
-    "Recharts",
-    "TypeScript",
-    "Zod"
-  ]
-},
+  {
+    title: "Amanera - Sistema de Gestión de Incidencias para Hoteles",
+    description:
+      "Desarrollé una plataforma completa para la gestión de incidencias en hoteles, con una app móvil para huéspedes y empleados, y un panel web administrativo. Los huéspedes pueden reportar problemas desde su habitación, los empleados los gestionan en tiempo real, y los administradores supervisan todo desde el panel. El sistema maneja roles, notificaciones y asignación automática de tareas.",
+    url: "https://github.com/tuerre/incidents-app",
+    demoURL: "",
+    languages: [
+      "React Native",
+      "Expo",
+      "Next.js",
+      "Tailwind CSS",
+      "PostgreSQL",
+    ],
+  },
+  {
+    title: "FluxoApp – Gestión Inteligente de Finanzas Personales",
+    description:
+      "Aplicación web moderna para gestión de gastos personales con enfoque en UX, rendimiento y escalabilidad. Permite registrar gastos, categorías, presupuestos y métodos de pago, visualizar reportes financieros interactivos, comparar periodos y exportar a Excel. Incluye autenticación segura, modo oscuro y multi-moneda.",
+    url: "https://github.com/tuerre/FluxoApp",
+    demoURL: "https://fluxomanagement.vercel.app/",
+    languages: [
+      "Next.js",
+      "React",
+      "NodeJS",
+      "Supabase",
+      "PostgreSQL",
+      "TailwindCSS",
+      "Recharts",
+      "TypeScript",
+      "Zod",
+    ],
+  },
   {
     title: "LunarPaws - Gestión de Usuarios y Animales",
-    description: "Desarrollé una aplicación web que permite a los usuarios registrase, iniciar sesión, tener un perfil público personalizado y gestionar animales. La aplicación está construida con Astro y tailwind en el frontend y Node.js con Express en el backend, utilizando SupaBase como base de datos. Implementé autenticación segura y manejo de sesiones con JWT, bycrypt para el hashing de contraseñas, y validación de datos con Zod.",
+    description:
+      "Desarrollé una aplicación web que permite a los usuarios registrase, iniciar sesión, tener un perfil público personalizado y gestionar animales. La aplicación está construida con Astro y tailwind en el frontend y Node.js con Express en el backend, utilizando SupaBase como base de datos. Implementé autenticación segura y manejo de sesiones con JWT, bycrypt para el hashing de contraseñas, y validación de datos con Zod.",
     url: "https://github.com/tuerre/gestion-animales",
-    languages: [
-      "NodeJS",
-      "Express",
-      "Supabase",
-      "Astro",
-      "React",
-      "Tailwind",
-    ]
+    demoURL: "",
+    languages: ["NodeJS", "Express", "Supabase", "Astro", "React", "Tailwind"],
   },
   {
     title: "Grupo Leones Web",
-    description: "Proyecto web para la empresa Grupo Leones que presenta sus distintas filiales y opciones de contacto. Incluye un panel administrativo para el envío de correos personalizados a usuarios registrados, automatización de correos y generación de reportes en PDF.",
+    description:
+      "Proyecto web para la empresa Grupo Leones que presenta sus distintas filiales y opciones de contacto. Incluye un panel administrativo para el envío de correos personalizados a usuarios registrados, automatización de correos y generación de reportes en PDF.",
     url: "https://github.com/Ronny-Abreu/GrupoLeones-web",
+    demoURL: "https://grupoleones.vercel.app/",
     languages: [
       "NodeJS",
       "TypeScript",
@@ -42,54 +55,57 @@ const projectInfo = [
       "Astro",
       "Tailwind",
       "Firebase",
-    ]
+    ],
   },
   {
     title: "Focus Mode Extension",
-    description: "Extensión para Google Chrome que permite al usuario bloquear ciertos sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK. Disponible en modo DEV.",
+    description:
+      "Extensión para Google Chrome que permite al usuario bloquear ciertos sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK. Disponible en modo DEV.",
     url: "https://github.com/tuerre/focus-mode-extension",
-    languages: [
-      "HTML5",
-      "CSS3",
-      "Vanilla JavaScript",
-      "Chrome", 
-    ]
+    languages: ["HTML5", "CSS3", "Vanilla JavaScript", "Chrome"],
   },
-
-]
-
+];
 ---
 
 <div class="max-w-7xl mx-auto px-4 mt-20 md:mt-0">
-    <div class="max-w-7xl">
-      <h2 class="info-habilities text-[#f2ce5a] font-bold text-[27px] mb-2">Proyectos</h2>
+  <div class="max-w-7xl">
+    <h2 class="info-habilities text-[#f2ce5a] font-bold text-[27px] mb-2">
+      Proyectos
+    </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {projectInfo.map((project) => (
-          <div class="flex flex-col gap-0.5 border border-gray-500/70 rounded-lg p-4">
-          <h4 class="info-habilities font-medium text-xl">{project.title}</h4>
-          <div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {
+        projectInfo.map((project) => (
+          <div class="flex flex-col gap-0.5 border border-gray-500/70 rounded-lg p-4 h-full">
+            <h4 class="info-habilities font-medium text-xl">{project.title}</h4>
+            <div>
+              <ul class="flex flex-wrap gap-2 mt-1">
+                {project.languages.map((lenguaje) => (
+                  <li class="flex">
+                    <span class="info-habilities flex items-center gap-2 rounded-full text-xs bg-[#003159] text-white py-1 px-2.5">
+                      {lenguaje}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="mt-3 flex-grow">
+              <p class="info-habilities">{project.description}</p>
+            </div>
 
-           <ul class="flex flex-wrap gap-2 mt-1">
-            {project.languages.map((lenguaje) => (
-              <li class="flex">
-                <span class="info-habilities flex items-center gap-2 rounded-full text-xs bg-[#003159] text-white py-1 px-2.5">
-                  {lenguaje}
-                </span>
-              </li>
-            ))}
-          </ul>
-
+            <div class="flex gap-2 mt-4">
+              <ButtonDashed url={project.url} label="Code" />
+              {project.demoURL && (
+                <ButtonDashed
+                  url={project.demoURL}
+                  label="Preview"
+                  icon={false}
+                />
+              )}
+            </div>
           </div>
-          <div class="mt-3 max-h-content">
-            <p class="info-habilities">{project.description}</p>
-
-            <div class="max-w-fit mt-2">
-            <ButtonDashed url={project.url}/>
-          </div>
-          </div>
-        </div>
-        ))}
-      </div>
+        ))
+      }
     </div>
+  </div>
 </div>
