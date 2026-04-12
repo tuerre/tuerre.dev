@@ -4,11 +4,27 @@ import SectionContainer from "../components/SectionContainer.astro";
 ---
 
 <Layout>
-    <SectionContainer class="relative top-[50vh] translate-y-[-50%]">
-        <main class="flex flex-col gap-3 items-center justify-center">
-            <h3 class="font-normal text-2xl">error <span class="font-bold">404</span></h3>
-            <span>La página que buscas no ha sido encontrada...</span>
-            <a href="/" class="underline">Volver al inicio</a>
-        </main>
-    </SectionContainer>
+  <SectionContainer class="relative top-[50vh] translate-y-[-50%]">
+    <main class="flex flex-col gap-3 items-center justify-center">
+      <div class="flex justify-center mb-8">
+        <div class="relative">
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-xl"
+          >
+          </div>
+          <img
+            class="aspect-[480/266] w-full h-auto block"
+            src="/images/this-is-fine-404.gif"
+            alt="This is fine meme"
+          />
+        </div>
+      </div>
+
+      <h3 class="font-normal text-2xl">
+        error <span class="font-bold">404</span>
+      </h3>
+      <span>La página que buscas no ha sido encontrada...</span>
+      <a href="/" class="underline">Volver al inicio</a>
+    </main>
+  </SectionContainer>
 </Layout>
