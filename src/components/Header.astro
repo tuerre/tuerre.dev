@@ -1,69 +1,102 @@
 ---
+import SunIcon from "./icons/Sun.astro";
+import MoonIcon from "./icons/Moon.astro";
+import { t, getAltLang, getLangSwitchUrl } from "../i18n/utils";
+import type { Lang } from "../i18n/translations";
+
+interface Props {
+  lang?: Lang;
+  currentPage?: string;
+}
+
+const { lang = "en", currentPage = "" } = Astro.props;
+const altLang = getAltLang(lang);
+const langSwitchUrl = getLangSwitchUrl(lang, currentPage);
+
 const navItems = [
-  {
-    title: "Skills",
-    label: "skills",
-    url: "/#habilidades",
-  },
-  {
-    title: "Projects",
-    label: "projects",
-    url: "/#proyectos",
-  },
-  {
-    title: "About Me",
-    label: "about-me",
-    url: "/#sobre-mi",
-  },
-  {
-    title: "Contact",
-    label: "contact",
-    url: "/#contacto",
-  },
-]
+  { title: t(lang, "nav.skills"), url: `/${lang}/#habilidades` },
+  { title: t(lang, "nav.projects"), url: `/${lang}/#proyectos` },
+  { title: t(lang, "nav.aboutMe"), url: `/${lang}/#sobre-mi` },
+  { title: t(lang, "nav.contact"), url: `/${lang}/#contacto` },
+  { title: t(lang, "nav.resume"), url: `/${lang}/resume` },
+];
 ---
 
 <header
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2 select-none"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    id="main-nav"
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center gap-0.5"
   >
     {
       navItems.map((link) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500"
-          aria-label={link.label}
+          class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-400"
           href={link.url}
         >
           {link.title}
         </a>
       ))
     }
+
+    <!-- Language switcher -->
+    <a
+      href={langSwitchUrl}
+      class="px-2 py-1 rounded-full text-xs font-bold border border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-400 transition-colors ml-1"
+      title={altLang === "en" ? "Switch to English" : "Cambiar a Español"}
+    >
+      {altLang.toUpperCase()}
+    </a>
+
+    <!-- Theme toggle -->
+    <button
+      id="theme-toggle"
+      aria-label="Toggle theme"
+      class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors ml-0.5 cursor-pointer"
+    >
+      <span class="hidden dark:flex items-center justify-center">
+        <SunIcon class="size-4" />
+      </span>
+      <span class="flex dark:hidden items-center justify-center">
+        <MoonIcon class="size-4" />
+      </span>
+    </button>
   </nav>
 </header>
 
+<script>
+  function initThemeToggle() {
+    const toggle = document.getElementById("theme-toggle");
+    if (!toggle) return;
+    toggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  }
+  initThemeToggle();
+  document.addEventListener("astro:page-load", initThemeToggle);
+</script>
+
 <style>
   nav {
-    animation: nav-shadown 1s linear both;
+    animation: nav-shadow 1s linear both;
     animation-timeline: scroll();
     animation-range: 0 100px;
   }
 
-  nav {
-    background-color: rgba(255, 255, 255, 0);
-  }
-
-  @keyframes nav-shadown {
+  @keyframes nav-shadow {
     0% {
       background-color: rgba(255, 255, 255, 0);
     }
     to {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.233), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      background-color: rgba(70, 70, 70, 0.089);
-
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
+      box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.08),
+        0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      background-color: var(--nav-shadow-bg, rgba(240, 240, 240, 0.88));
+      border: 1px solid var(--nav-shadow-border, rgba(200, 200, 200, 0.6));
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
   }
 </style>

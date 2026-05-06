@@ -3,6 +3,14 @@ import MailIcon from "./icons/Mail.astro";
 import GitHubIcon from "./icons/GitHub.astro";
 import SiteIcon from "./icons/Site.astro";
 import LinkedInIcon from "./icons/LinkedIn.astro";
+import { t } from "../i18n/utils";
+import type { Lang } from "../i18n/translations";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
 ---
 
 <div class="max-w-7xl mx-auto px-4 pt-12">
@@ -10,29 +18,31 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
     <div class="flex items-center gap-4 mb-4">
       <div class="relative max-w-16 max-h-16">
         <img
-          loading="lazy"
+          loading="eager"
           class="rounded-full shadow-lg size-16 select-none"
           src="/me.webp"
           alt="Foto Selfie de Jendry De Leon"
+          width="64"
+          height="64"
         />
       </div>
       <div class="flex flex-col">
-        <h1 class="text-[25px] font-bold text-[#F1F1F1] sm:text-4xl">
+        <h1 class="text-[25px] font-bold text-gray-900 dark:text-[#F1F1F1] sm:text-4xl">
           Jendry De León Abreu
         </h1>
-        <div class="flex items-center gap-2 mt-0.5">
+        <div class="flex items-center gap-2 mt-0.5 text-gray-600 dark:text-gray-300">
           <SiteIcon />
-          <span class="text-[13px]"> Santo Domingo, República Dominicana </span>
+          <span class="text-[13px]">{t(lang, "hero.location")}</span>
         </div>
       </div>
     </div>
 
-    <p class="mt-4 text-xl text-white">
-      Desarrollador web Full-Stack en evolución.
+    <p class="mt-4 text-xl text-gray-700 dark:text-[#e8e8e8]">
+      {t(lang, "hero.tagline")}
       <strong class="font-bold text-[#09f]">
-        +2 años siendo entusiasta de la programación</strong
-      >
-      y 1y desarrollando como tal.
+        {t(lang, "hero.highlight")}
+      </strong>
+      {" "}{t(lang, "hero.suffix")}
     </p>
 
     <nav
@@ -45,7 +55,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
         title="Enviar Mail a Jendry Abreu"
       >
         <MailIcon />
-        Contacto
+        {t(lang, "hero.contact")}
       </a>
       <div class="flex w-full items-center gap-3">
         <a
@@ -55,7 +65,7 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
           title="Mi perfil de GitHub"
         >
           <GitHubIcon />
-          GitHub
+          {t(lang, "hero.github")}
         </a>
         <a
           target="_blank"

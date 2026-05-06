@@ -1,53 +1,62 @@
+---
+import { t } from "../i18n/utils";
+import type { Lang } from "../i18n/translations";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+const projectsUrl = `/${lang}/#proyectos`;
+---
+
 <div class="max-w-7xl mx-auto px-4">
   <div class="mb-16">
-    <h2 class="text-3xl text-[#F1F1F1] font-bold sm:text-4xl mb-2">Sobre mí</h2>
-    <p class="text-gray-300">
-      Soy estudiante de último año de bachillerato en Desarrollo de Sistemas
-      Informáticos y Bases de Datos. En estos dos años que llevo estudiando en
-      el área, he aprendido tanto lo que se me imparte como también sobre el
-      mundo de la programación de forma autodidacta, logrando así desarrollar,
-      tanto de manera individual como grupal, proyectos reales para empresas y
-      negocios, así como proyectos personales con gran proyección. <br /><br />
+    <h2 class="text-3xl text-gray-900 dark:text-[#F1F1F1] font-bold sm:text-4xl mb-2">
+      {t(lang, "aboutMe.title")}
+    </h2>
+    <p class="text-gray-600 dark:text-gray-300">
+      {t(lang, "aboutMe.p1")}
+      <br /><br />
     </p>
-    <p>
-      Algunos de mis proyectos incluyen la página web para la empresa de
-      filiales <span class="font-extrabold">‘Grupo Leones’</span>, una librería
-      de animaciones para <span class="font-extrabold">TailwindCSS</span> que actualmente
-      sigue activa, y otros sistemas que pueden visualizarse en <a
-        href="/#proyectos"
-        class="text-gray-400">mis proyectos</a
-      >. <br /><br />
+    <p class="text-gray-700 dark:text-gray-200">
+      {t(lang, "aboutMe.p2").split(t(lang, "aboutMe.projectsLinkText"))[0]}
+      <a href={projectsUrl} class="text-gray-500 dark:text-gray-400 underline underline-offset-2">
+        {t(lang, "aboutMe.projectsLinkText")}
+      </a>.
+      <br /><br />
     </p>
-    <p>
-      Me describo como una persona con habilidades que fomentan el buen trabajo
-      en equipo, la colaboración y la adaptación a los requerimientos de cada
-      proyecto. Me encanta la programación de pe a pa💜
+    <p class="text-gray-700 dark:text-gray-200">
+      {t(lang, "aboutMe.p3")}
     </p>
   </div>
   <div class="flex flex-col md:flex-row gap-4 justify-between">
     <div class="flex flex-col">
-      <h2 class="text-3xl text-[#F1F1F1] font-bold sm:text-4xl mb-2">
-        Estudios
+      <h2 class="text-3xl text-gray-900 dark:text-[#F1F1F1] font-bold sm:text-4xl mb-2">
+        {t(lang, "aboutMe.studies")}
       </h2>
       <div class="flex flex-col">
         <a
           href="https://itesa.edu.do/"
           target="_blank"
           class="text-[#ffeb39] hover:text-[#ffeb39]/80 text-xl font-medium"
-          >Instituto Técnico Salesiano ITESA</a
         >
-        <span class="text-[#f1f1f1] text-[15px] font-semibold"
-          >── Desarrollo de Sistemas Informáticos</span
-        >
+          Instituto Técnico Salesiano ITESA
+        </a>
+        <span class="text-gray-700 dark:text-[#f1f1f1] text-[15px] font-semibold">
+          {t(lang, "aboutMe.schoolLabel")}
+        </span>
       </div>
     </div>
 
     <div class="md:w-1/2 flex justify-center brightness-65">
       <img
         loading="lazy"
-        class="rounded-2xl shadow-lg w-64 h-64"
+        class="rounded-2xl shadow-lg w-64 h-64 object-cover"
         src="/jendry.webp"
         alt="Foto de medio cuerpo de Jendry De León"
+        width="256"
+        height="256"
       />
     </div>
   </div>
