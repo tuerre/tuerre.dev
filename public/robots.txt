@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://tuerre.vercel.app/sitemap.xml
+Sitemap: https://tuerre.vercel.app/sitemap-index.xml

@@ -1,0 +1,95 @@
+---
+const SITE_URL = "https://tuerre.vercel.app";
+const SITE_NAME = "Portfolio de Jendry De León Abreu";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: "en" | "es";
+  currentPage?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  lang,
+  currentPage = "",
+  image = `${SITE_URL}/og.jpg`,
+  type = "website",
+} = Astro.props;
+
+const basePath = currentPage ? `/${currentPage}` : "/";
+const canonicalUrl = `${SITE_URL}/${lang}${basePath}`;
+const esUrl = `${SITE_URL}/es${basePath}`;
+const enUrl = `${SITE_URL}/en${basePath}`;
+const ogLocale = lang === "es" ? "es_DO" : "en_US";
+const ogLocaleAlt = lang === "es" ? "en_US" : "es_DO";
+
+const schemaOrg =
+  !currentPage
+    ? JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Jendry De León Abreu",
+        url: SITE_URL,
+        jobTitle: "Full-Stack Web Developer",
+        sameAs: [
+          "https://github.com/tuerre",
+          "https://linkedin.com/in/tuerre",
+        ],
+      })
+    : currentPage === "projects"
+    ? JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: title,
+        url: canonicalUrl,
+      })
+    : JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        url: canonicalUrl,
+        description: description,
+      });
+---
+
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={canonicalUrl} />
+<meta name="author" content="Jendry De León Abreu" />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlt} />
+<meta property="og:site_name" content={SITE_NAME} />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={title} />
+<meta name="twitter:creator" content="@tuerredev" />
+
+<!-- Bing / Microsoft -->
+<!-- TODO: replace content with Bing Webmaster Tools verification code -->
+<meta name="msvalidate.01" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<!-- Hreflang -->
+<link rel="alternate" hreflang="es" href={esUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={enUrl} />
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json" set:html={schemaOrg} />
