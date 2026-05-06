@@ -1,0 +1,45 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import Habilidades from "../../components/Habilidades.astro";
+import Proyectos from "../../components/Proyectos.astro";
+import AboutMe from "../../components/AboutMe.astro";
+import Certifications from "../../components/Certifications.astro";
+import Footer from "../../components/Footer.astro";
+
+const lang = "en";
+---
+
+<Layout
+  lang={lang}
+  title="Jendry De León Abreu - Full-Stack Web Developer"
+  description="Full-Stack Web Developer specializing in modern and scalable web applications in React and NodeJS, based in Santo Domingo, Dominican Republic."
+  currentPage=""
+>
+  <main>
+    <SectionContainer id="hero" class="pt-16 md:py-28 relative">
+      <Hero lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="habilidades" class="py-3 relative">
+      <Habilidades lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="proyectos" class="py-16 md:py-26 relative">
+      <Proyectos lang={lang} limit={6} showAllLink={true} />
+    </SectionContainer>
+
+    <SectionContainer id="sobre-mi" class="py-16 md:py-26 relative">
+      <AboutMe lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="certificaciones" class="py-16 relative">
+      <Certifications lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="contacto" class="px-3 relative bottom-4 pb-8">
+      <Footer />
+    </SectionContainer>
+  </main>
+</Layout>

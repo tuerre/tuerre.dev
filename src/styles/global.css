@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    @apply bg-[#0D0E12] text-[#F1F1F1];
+  @apply bg-white dark:bg-[#0D0E12] text-gray-800 dark:text-[#F1F1F1];
 }
