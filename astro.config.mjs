@@ -1,6 +1,19 @@
 import tailwind from "@astrojs/tailwind";
+import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  integrations: [tailwind()],
+  site: "https://tuerre.vercel.app",
+  integrations: [
+    tailwind(),
+    sitemap({
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en-US",
+          es: "es-DO",
+        },
+      },
+    }),
+  ],
 });
