@@ -1,4 +1,6 @@
 ---
+import StructuredData from "./StructuredData.astro";
+
 const SITE_URL = "https://tuerre.vercel.app";
 const SITE_NAME = "Portfolio de Jendry De León Abreu";
 
@@ -21,40 +23,11 @@ const {
 } = Astro.props;
 
 const basePath = currentPage ? `/${currentPage}` : "/";
-// English lives at the root (no prefix); Spanish lives under /es.
 const enUrl = `${SITE_URL}${basePath}`;
 const esUrl = `${SITE_URL}/es${basePath}`;
 const canonicalUrl = lang === "es" ? esUrl : enUrl;
 const ogLocale = lang === "es" ? "es_DO" : "en_US";
 const ogLocaleAlt = lang === "es" ? "en_US" : "es_DO";
-
-const schemaOrg =
-  !currentPage
-    ? JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Jendry De León Abreu",
-        url: SITE_URL,
-        jobTitle: "Full-Stack Web Developer",
-        sameAs: [
-          "https://github.com/tuerre",
-          "https://linkedin.com/in/tuerre",
-        ],
-      })
-    : currentPage === "projects"
-    ? JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        name: title,
-        url: canonicalUrl,
-      })
-    : JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: title,
-        url: canonicalUrl,
-        description: description,
-      });
 ---
 
 <meta name="description" content={description} />
@@ -62,7 +35,6 @@ const schemaOrg =
 <link rel="canonical" href={canonicalUrl} />
 <meta name="author" content="Jendry De León Abreu" />
 
-<!-- Open Graph -->
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
@@ -93,4 +65,10 @@ const schemaOrg =
 <link rel="alternate" hreflang="x-default" href={enUrl} />
 
 <!-- Schema.org JSON-LD -->
-<script type="application/ld+json" set:html={schemaOrg} />
+<StructuredData
+  lang={lang}
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  currentPage={currentPage}
+/>
