@@ -3,8 +3,8 @@ import type { Lang } from "./translations";
 
 export function getLang(url: URL | string): Lang {
   const pathname = typeof url === "string" ? url : url.pathname;
-  if (pathname.startsWith("/en")) return "en";
-  return "es";
+  if (pathname.startsWith("/es")) return "es";
+  return "en";
 }
 
 export function t(lang: Lang, key: string): string {
@@ -21,7 +21,13 @@ export function getAltLang(lang: Lang): Lang {
   return lang === "en" ? "es" : "en";
 }
 
+// English lives at the root (no prefix); Spanish lives under /es.
+export function getLangBase(lang: Lang): string {
+  return lang === "es" ? "/es" : "";
+}
+
 export function getLangSwitchUrl(lang: Lang, currentPage: string): string {
   const alt = getAltLang(lang);
-  return currentPage ? `/${alt}/${currentPage}` : `/${alt}/`;
+  const base = getLangBase(alt);
+  return currentPage ? `${base}/${currentPage}` : `${base}/`;
 }

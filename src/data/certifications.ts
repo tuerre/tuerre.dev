@@ -12,7 +12,14 @@ export const certifications: Certification[] = [
     titleEn: "Winner of the Code4Change competition",
     issuer: "TheCodingSpace",
     date: "2026",
-    url: "/c4c.png",
+    url: "/c4c.webp",
+  },
+  {
+    title: "Desarrollo Web Full Stack Avanzado",
+    titleEn: "Advanced Full Stack Web Development",
+    issuer: "Banco Interamericano de Desarrollo E INDOTEL",
+    date: "2026",
+    url: "/BID-CERTIFICATE.pdf",
   },
   {
     title: "Claude 101",
