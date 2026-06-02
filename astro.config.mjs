@@ -4,16 +4,5 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://tuerre.vercel.app",
-  integrations: [
-    tailwind(),
-    sitemap({
-      i18n: {
-        defaultLocale: "en",
-        locales: {
-          en: "en-US",
-          es: "es-DO",
-        },
-      },
-    }),
-  ],
+  integrations: [tailwind(), sitemap()],
 });

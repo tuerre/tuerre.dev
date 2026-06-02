@@ -31,3 +31,9 @@ pnpm-debug.log*
 
 # claude
 .claude
+
+.agents
+
+.vscode
+
+skills-lock.json
