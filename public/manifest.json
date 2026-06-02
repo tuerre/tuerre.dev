@@ -1,0 +1,27 @@
+{
+  "name": "Jendry De León Abreu — Full-Stack Web Developer",
+  "short_name": "Jendry Dev",
+  "description": "Portfolio of Jendry De León Abreu, a Dominican full-stack web developer based in Santo Domingo, Dominican Republic.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D0E12",
+  "theme_color": "#0D0E12",
+  "categories": ["portfolio", "technology", "business"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

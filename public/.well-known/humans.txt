@@ -1,0 +1,18 @@
+/* TEAM */
+  Developer: Jendry De León Abreu
+  Role: Full-Stack Web Developer / Desarrollador Web Full-Stack
+  Location: Santo Domingo, Dominican Republic / República Dominicana
+  Contact: tuerredev [at] gmail.com
+  GitHub: https://github.com/tuerre
+  LinkedIn: https://linkedin.com/in/tuerre
+  X: https://x.com/tuerredev
+  Instagram: https://instagram.com/de1eonzz
+
+/* SITE */
+  Last update: 2026/06/02
+  Languages: English, Español
+  Standards: HTML5, CSS3, WCAG 2.1
+  Components: Astro, TailwindCSS, TypeScript
+  Hosting: Vercel
+
+  Hecho con 💜 desde República Dominicana.
