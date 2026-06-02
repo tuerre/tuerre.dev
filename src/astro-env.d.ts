@@ -3,3 +3,5 @@ declare module '*.astro' {
   const astroComponent: AstroComponentFactory;
   export default astroComponent;
 }
+
+declare module '@fontsource-variable/onest';
