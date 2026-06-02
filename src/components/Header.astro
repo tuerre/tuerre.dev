@@ -26,6 +26,7 @@ const navItems = [
 >
   <nav
     id="main-nav"
+    aria-label={lang === "es" ? "Navegación principal" : "Primary navigation"}
     class="flex px-3 text-sm font-medium rounded-full text-gray-200 justify-center items-center gap-0.5"
   >
     {
@@ -42,7 +43,10 @@ const navItems = [
     <!-- Language switcher -->
     <a
       href={langSwitchUrl}
+      lang={altLang}
+      hreflang={altLang}
       class="px-2 py-1 rounded-full text-xs font-bold border border-gray-600 hover:border-blue-400 transition-colors ml-1"
+      aria-label={altLang === "en" ? "Switch to English" : "Cambiar a Español"}
       title={altLang === "en" ? "Switch to English" : "Cambiar a Español"}
     >
       {altLang.toUpperCase()}
