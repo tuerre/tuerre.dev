@@ -16,20 +16,20 @@ const { lang = "en" } = Astro.props;
       {t(lang, "certifications.title")}
     </h2>
 
-    <ul class="flex flex-col divide-y divide-gray-200 dark:divide-gray-700/60">
+    <ul class="flex flex-col divide-y divide-gray-700/60">
       {
         certifications.map((cert) => (
           <li class="flex items-start justify-between gap-4 py-3.5 group">
             <div class="flex flex-col gap-0.5">
-              <span class="font-semibold text-gray-900 dark:text-[#F1F1F1] text-[15px] leading-snug">
+              <span class="font-semibold text-[#F1F1F1] text-[15px] leading-snug">
                 {lang === "es" ? cert.title : cert.titleEn}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">
+              <span class="text-sm text-gray-400">
                 {cert.issuer}
               </span>
             </div>
             <div class="flex flex-col items-end gap-1 shrink-0">
-              <span class="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
+              <span class="text-xs text-gray-500 tabular-nums">
                 {cert.date}
               </span>
               <a

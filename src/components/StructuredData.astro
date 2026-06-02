@@ -1,0 +1,115 @@
+---
+// Reusable JSON-LD structured data. Emits a single @graph with the
+// site-wide Person + WebSite entities plus a node for the current page.
+const SITE_URL = "https://tuerre.vercel.app";
+
+interface Props {
+  lang: "en" | "es";
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  currentPage?: string;
+}
+
+const { lang, title, description, canonicalUrl, currentPage = "" } =
+  Astro.props;
+
+const inLanguage = lang === "es" ? "es-DO" : "en-US";
+
+const person = {
+  "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
+  name: "Jendry De León Abreu",
+  url: SITE_URL,
+  image: `${SITE_URL}/me.webp`,
+  jobTitle:
+    lang === "es"
+      ? "Desarrollador Web Full-Stack"
+      : "Full-Stack Web Developer",
+  description:
+    lang === "es"
+      ? "Desarrollador web full stack dominicano de Santo Domingo, República Dominicana, especializado en React, Node.js y TypeScript."
+      : "Dominican full-stack web developer based in Santo Domingo, Dominican Republic, specializing in React, Node.js and TypeScript.",
+  nationality: { "@type": "Country", name: "Dominican Republic" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Santo Domingo",
+    addressCountry: "DO",
+  },
+  knowsAbout: [
+    "Web Development",
+    "Frontend Development",
+    "Backend Development",
+    "Mobile Development",
+    "Full-Stack Development",
+    "React",
+    "React Native",
+    "Node.js",
+    "TypeScript",
+    "Astro",
+  ],
+  sameAs: [
+    "https://github.com/tuerre",
+    "https://linkedin.com/in/tuerre",
+    "https://x.com/tuerredev",
+    "https://instagram.com/de1eonzz",
+  ],
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: "Jendry De León Abreu",
+  description:
+    lang === "es"
+      ? "Portafolio de Jendry De León Abreu, desarrollador web full stack en República Dominicana."
+      : "Portfolio of Jendry De León Abreu, full-stack web developer in the Dominican Republic.",
+  inLanguage,
+  publisher: { "@id": `${SITE_URL}/#person` },
+};
+
+let pageNode;
+if (!currentPage) {
+  pageNode = {
+    "@type": "ProfilePage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    description,
+    inLanguage,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#person` },
+    mainEntity: { "@id": `${SITE_URL}/#person` },
+  };
+} else if (currentPage === "projects") {
+  pageNode = {
+    "@type": "CollectionPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    description,
+    inLanguage,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#person` },
+  };
+} else {
+  pageNode = {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    description,
+    inLanguage,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#person` },
+  };
+}
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [person, website, pageNode],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />
