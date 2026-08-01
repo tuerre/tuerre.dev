@@ -1,0 +1,403 @@
+---
+title: "Cómo Resolví un Error 500 en Vercel Causado por Rutas con Trailing Slash"
+slug: "error-500-vercel-rutas-trailing-slash"
+publishedAt: "2026-08-01"
+description: "Cómo detecté y resolví un error FUNCTION_INVOCATION_FAILED en Vercel que solo ocurría al acceder a rutas antiguas como /es/ y /en/."
+readingTime: "6 min de lectura"
+tags:
+  - Vercel
+  - Astro
+  - SEO
+  - Desarrollo Web
+  - Debugging
+---
+
+# Cómo Resolví un Error 500 en Vercel Causado por Rutas con Trailing Slash
+
+Hace poco rediseñé completamente mi portfolio y aproveché para limpiar y mejorar su estructura SEO. El nuevo proyecto funcionaba correctamente, pero después de desplegarlo apareció un problema bastante extraño: algunas URLs antiguas que Google todavía tenía indexadas devolvían un error 500 en producción.
+
+Lo más curioso era que el error no aparecía siempre.
+
+Después de varias pruebas, descubrí que el problema estaba relacionado con las rutas antiguas `/es` y `/en`, específicamente cuando tenían una `/` al final.
+
+## 1. El error que apareció en producción
+
+El primer indicio fue que al entrar desde un resultado de Google, mi portfolio mostraba:
+
+```text
+500: INTERNAL_SERVER_ERROR
+
+Code: FUNCTION_INVOCATION_FAILED
+```
+
+Vercel indicaba que la conexión y la plataforma estaban funcionando correctamente, pero una Serverless Function había fallado.
+
+Lo extraño era que si escribía directamente:
+
+```text
+https://tuerre.vercel.app/es
+```
+
+la página funcionaba y redirigía correctamente a `/`.
+
+Pero Google estaba mostrando una URL antigua:
+
+```text
+https://tuerre.vercel.app/es/
+```
+
+y esa URL terminaba en un error 500.
+
+Ahí encontré la primera pista importante: **`/es` y `/es/` no estaban teniendo exactamente el mismo comportamiento.**
+
+## 2. Primero pensé que era un problema de Google
+
+Mi primera sospecha fue que Google estuviera enviando algún tipo de petición diferente.
+
+Sin embargo, al probar las URLs directamente descubrí algo mucho más concreto:
+
+```text
+/es   → 301 → /
+/es/  → 500
+```
+
+Hice la misma prueba con la versión inglesa:
+
+```text
+/en   → 301 → /
+/en/  → 500
+```
+
+Por lo tanto, el problema no era realmente Google.
+
+Google simplemente estaba apuntando a una URL antigua que todavía tenía indexada. El problema real estaba en cómo mi aplicación estaba manejando esas rutas.
+
+## 3. La estructura antigua que estaba intentando mantener
+
+Mi portfolio anterior tenía una estructura multidioma con rutas como:
+
+```text
+/es
+/es/projects
+/es/resume
+
+/en
+/en/projects
+/en/resume
+```
+
+Pero el nuevo portfolio es completamente español y ya no necesitaba esa arquitectura.
+
+Por eso había configurado redirects en `astro.config.mjs`:
+
+```js
+redirects: {
+  "/resume": "/CV-JendryDeLeonAbreu.pdf",
+
+  "/es": "/",
+  "/es/projects": "/projects",
+  "/es/resume": "/CV-JendryDeLeonAbreu.pdf",
+
+  "/en": "/",
+  "/en/projects": "/projects",
+  "/en/resume": "/CV-JendryDeLeonAbreu.pdf",
+},
+```
+
+La idea era sencilla: cualquier URL antigua debía llevar al equivalente nuevo.
+
+## 4. Intenté solucionar `/es/` y `/en/` directamente
+
+Como `/es` funcionaba pero `/es/` no, mi primera idea fue añadir las variantes con trailing slash:
+
+```js
+redirects: {
+  "/es": "/",
+  "/es/": "/",
+
+  "/en": "/",
+  "/en/": "/"
+}
+```
+
+Parecía lógico.
+
+Pero Astro inmediatamente mostró otro problema:
+
+```text
+The route "/es" is defined in both "/es" and "/es/".
+A static route cannot be defined more than once.
+```
+
+Astro estaba considerando `/es` y `/es/` como la misma ruta estática.
+
+Así que esa solución no era válida.
+
+## 5. Después descubrí los catch-all
+
+En el proyecto también tenía estos archivos:
+
+```text
+src/pages/es/[...path].astro
+src/pages/en/[...path].astro
+```
+
+La intención era capturar cualquier ruta antigua debajo de `/es` o `/en` y redirigirla a la home:
+
+```astro
+---
+export const prerender = false;
+
+return Astro.redirect("/", 301);
+---
+```
+
+En teoría parecía una solución perfecta.
+
+El problema era que:
+
+```js
+export const prerender = false;
+```
+
+hacía que esas rutas fueran procesadas dinámicamente.
+
+Y como estaba utilizando `@astrojs/vercel`, esas rutas podían terminar ejecutándose como funciones Serverless de Vercel.
+
+Eso explicaba por qué aparecía:
+
+```text
+FUNCTION_INVOCATION_FAILED
+```
+
+El flujo problemático terminaba siendo aproximadamente:
+
+```text
+/es/
+  ↓
+Astro catch-all
+  ↓
+Serverless Function
+  ↓
+error de ejecución
+  ↓
+500
+```
+
+## 6. Probé `trailingSlash`
+
+Otra posibilidad fue configurar explícitamente Astro:
+
+```js
+trailingSlash: "ignore",
+```
+
+Pensé que esto podría hacer que Astro tratara de forma equivalente:
+
+```text
+/es
+/es/
+```
+
+Sin embargo, después de desplegar nuevamente el proyecto, el resultado seguía siendo:
+
+```text
+/es   → 301 → /
+/es/  → 404
+```
+
+Lo mismo ocurría con `/en`.
+
+Esto me permitió descartar `trailingSlash` como solución para este problema concreto.
+
+## 7. La prueba que finalmente me ayudó a aislar el problema
+
+Quité temporalmente los catch-all:
+
+```text
+src/pages/es/[...path].astro
+src/pages/en/[...path].astro
+```
+
+El resultado fue muy revelador.
+
+Con los catch-all:
+
+```text
+/es/ → 500
+/en/ → 500
+```
+
+Sin los catch-all:
+
+```text
+/es/ → 404
+/en/ → 404
+```
+
+Mientras que las rutas sin trailing slash continuaban funcionando:
+
+```text
+/es → /
+/en → /
+```
+
+Ya tenía claramente identificado el problema: **no necesitaba crear páginas Astro para esas URLs antiguas; necesitaba resolverlas directamente en el routing de Vercel.**
+
+## 8. La solución final: `vercel.json`
+
+Creé un archivo `vercel.json` en la raíz del proyecto.
+
+Para las URLs antiguas con trailing slash añadí redirects permanentes:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/es/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/es/projects/",
+      "destination": "/projects",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/",
+      "destination": "/projects",
+      "permanent": true
+    },
+    {
+      "source": "/es/resume/",
+      "destination": "/CV-JendryDeLeonAbreu.pdf",
+      "permanent": true
+    },
+    {
+      "source": "/en/resume/",
+      "destination": "/CV-JendryDeLeonAbreu.pdf",
+      "permanent": true
+    }
+  ]
+}
+```
+
+De esta manera, las rutas antiguas podían ser resueltas directamente por Vercel sin depender de una Serverless Function de Astro.
+
+El flujo pasó a ser:
+
+```text
+Google
+  ↓
+/es/
+  ↓
+Vercel
+  ↓
+301
+  ↓
+/
+  ↓
+200
+```
+
+## 9. La prueba en Preview
+
+Antes de llevar el cambio a producción, hice un nuevo deployment de Preview.
+
+Probé:
+
+```text
+/es
+/es/
+/en
+/en/
+
+/es/projects
+/es/projects/
+
+/en/projects
+/en/projects/
+```
+
+Y finalmente obtuve el comportamiento esperado:
+
+```text
+/es/             → 301 → /
+/en/             → 301 → /
+
+/es/projects/    → 301 → /projects
+/en/projects/    → 301 → /projects
+```
+
+Lo más importante era que ya no aparecía:
+
+```text
+500 FUNCTION_INVOCATION_FAILED
+```
+
+ni:
+
+```text
+404
+```
+
+Las rutas antiguas ahora eran redirigidas correctamente.
+
+## 10. ¿Qué aprendí de este error?
+
+Este problema me recordó algo importante sobre las aplicaciones web modernas: **una URL aparentemente idéntica puede seguir caminos diferentes dependiendo de cómo esté configurado el routing.**
+
+Yo inicialmente estaba pensando:
+
+```text
+/es = /es/
+```
+
+pero en mi configuración no estaban teniendo el mismo comportamiento.
+
+También aprendí que no siempre es buena idea resolver mediante SSR algo que realmente es una regla de infraestructura.
+
+En este caso, las rutas `/es` y `/en` ya no formaban parte de mi aplicación. Eran simplemente URLs antiguas que necesitaba mantener funcionando porque podían existir en Google, enlaces antiguos o marcadores.
+
+Por eso tenía más sentido resolverlas directamente con redirects permanentes.
+
+## 11. El resultado final
+
+La arquitectura quedó mucho más limpia:
+
+```text
+Portfolio actual
+│
+├── /
+├── /projects
+├── /blog
+└── /blog/[slug]
+
+URLs antiguas
+│
+├── /es       ──→ /
+├── /es/      ──→ /
+├── /en       ──→ /
+├── /en/      ──→ /
+├── /es/projects  ──→ /projects
+└── /en/projects  ──→ /projects
+```
+
+Y lo más importante: **no tuve que conservar toda la estructura multidioma del portfolio anterior solamente para que Google no encontrara errores.**
+
+Las URLs antiguas siguen existiendo como redirects, pero el proyecto nuevo mantiene una arquitectura limpia y completamente en español.
+
+Después de comprobar todo en Preview, el siguiente paso fue llevarlo a producción y posteriormente revisar Google Search Console para comprobar que Google procesara correctamente las redirecciones.
+
+Al final, lo que comenzó como un extraño error:
+
+```text
+FUNCTION_INVOCATION_FAILED
+```
+
+terminó siendo una buena lección sobre **Astro, Vercel, Serverless Functions, trailing slashes, redirects y migraciones SEO**.
