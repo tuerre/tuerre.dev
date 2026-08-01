@@ -33,9 +33,11 @@ export default defineConfig({
   redirects: {
     // Rutas eliminadas del sitio viejo → 301 (español-only, sin resume).
     "/resume": "/CV-JendryDeLeonAbreu.pdf",
+    // El sitio es 100% español-only: /es y /en exactos redirigen a la home.
+    // Cualquier subruta debajo (/es/*, /en/*) la cubren las páginas catch-all
+    // en src/pages/es/[...path].astro y src/pages/en/[...path].astro.
     "/es": "/",
-    "/es/projects": "/projects",
-    "/es/resume": "/CV-JendryDeLeonAbreu.pdf",
+    "/en": "/",
   },
   integrations: [
     react(),
