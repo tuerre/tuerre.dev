@@ -31,14 +31,16 @@ export default defineConfig({
   site: "https://tuerre.vercel.app",
   adapter: vercel(),
   redirects: {
-    // Rutas eliminadas del sitio viejo → 301 (español-only, sin resume).
-    "/resume": "/CV-JendryDeLeonAbreu.pdf",
-    // El sitio es 100% español-only: /es y /en exactos redirigen a la home.
-    // Cualquier subruta debajo (/es/*, /en/*) la cubren las páginas catch-all
-    // en src/pages/es/[...path].astro y src/pages/en/[...path].astro.
-    "/es": "/",
-    "/en": "/",
-  },
+  "/resume": "/CV-JendryDeLeonAbreu.pdf",
+
+  "/es": "/",
+  "/es/projects": "/projects",
+  "/es/resume": "/CV-JendryDeLeonAbreu.pdf",
+
+  "/en": "/",
+  "/en/projects": "/projects",
+  "/en/resume": "/CV-JendryDeLeonAbreu.pdf",
+},
   integrations: [
     react(),
     mdx(),

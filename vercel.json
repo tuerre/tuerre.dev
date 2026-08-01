@@ -1,0 +1,34 @@
+{
+  "redirects": [
+    {
+      "source": "/es/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/es/projects/",
+      "destination": "/projects",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/",
+      "destination": "/projects",
+      "permanent": true
+    },
+    {
+      "source": "/es/resume/",
+      "destination": "/CV-JendryDeLeonAbreu.pdf",
+      "permanent": true
+    },
+    {
+      "source": "/en/resume/",
+      "destination": "/CV-JendryDeLeonAbreu.pdf",
+      "permanent": true
+    }
+  ]
+}
