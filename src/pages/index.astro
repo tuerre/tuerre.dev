@@ -1,45 +1,65 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/Hero.astro";
-import SectionContainer from "../components/SectionContainer.astro";
-import Habilidades from "../components/Habilidades.astro";
-import Proyectos from "../components/Proyectos.astro";
-import AboutMe from "../components/AboutMe.astro";
-import Certifications from "../components/Certifications.astro";
-import Footer from "../components/Footer.astro";
+import Container from "../components/Container.astro";
+import { getCollection } from "astro:content";
 
-const lang = "en";
+import Hero from "@/components/sections/Hero";
+import Contact from "@/components/sections/Contact";
+import GithubActivity from "@/components/sections/GithubActivity";
+import Projects from "@/components/sections/Projects";
+import TechStack from "@/components/sections/TechStack";
+import Connect from "@/components/sections/Connect";
+import { Quote } from "@/components/sections/Quote";
+import Footer from "@/components/sections/Footer";
+
+import Heading from "@/components/Heading";
+import BlogCard from "@/components/BlogCard";
+import HeadingButton from "@/components/HeadingButton";
+
+const blogs = (await getCollection("blogs"))
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishedAt).getTime() -
+      new Date(a.data.publishedAt).getTime(),
+  )
+  .slice(0, 2);
+
+const total = blogs.length;
+
+function cellClass(idx: number) {
+  return [
+    "px-8 py-6 md:px-16 md:py-8",
+    idx % 2 === 0 ? "md:pr-8 md:pl-16" : "md:pr-16 md:pl-8",
+    idx < total - 1 ? "border-b md:border-b-0" : "",
+    idx % 2 === 0 && idx < total - 1 ? "md:border-r" : "md:border-r-0",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 ---
 
-<Layout
-  lang={lang}
-  title="Jendry De León Abreu - Full-Stack Web Developer"
-  description="Full-Stack Web Developer specializing in modern and scalable web applications in React and NodeJS, based in Santo Domingo, Dominican Republic."
-  currentPage=""
->
-  <main>
-    <SectionContainer id="hero" class="pt-16 md:py-28 relative">
-      <Hero lang={lang} />
-    </SectionContainer>
+<Layout useTitleTemplate={false}>
+  <Container>
+    <Hero client:load />
+    <Contact client:load />
+    <GithubActivity client:visible />
+    <Projects client:visible />
+    <TechStack client:visible />
 
-    <SectionContainer id="habilidades" class="py-3 relative">
-      <Habilidades lang={lang} />
-    </SectionContainer>
+    <Heading title="Blog" />
+    <div class="grid w-full grid-cols-1 md:grid-cols-2">
+      {
+        blogs.map((blog, idx) => (
+          <div class={cellClass(idx)}>
+            <BlogCard blog={blog.data} />
+          </div>
+        ))
+      }
+    </div>
+    <HeadingButton title="Ver Todo el Blog" href="/blog" />
 
-    <SectionContainer id="proyectos" class="py-16 md:py-26 relative">
-      <Proyectos lang={lang} limit={6} showAllLink={true} />
-    </SectionContainer>
-
-    <SectionContainer id="sobre-mi" class="py-16 md:py-26 relative">
-      <AboutMe lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="certificaciones" class="py-16 relative">
-      <Certifications lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="contacto" class="px-3 relative bottom-4 pb-8">
-      <Footer />
-    </SectionContainer>
-  </main>
+    <Connect />
+    <Quote />
+    <Footer />
+  </Container>
 </Layout>

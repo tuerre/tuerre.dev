@@ -1,39 +1,121 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SectionContainer from "../components/SectionContainer.astro";
-import Proyectos from "../components/Proyectos.astro";
-import Footer from "../components/Footer.astro";
+import Container from "../components/Container.astro";
+import PageNavbar from "@/components/PageNavbar";
+import PageHeading from "@/components/PageHeading";
+import ProjectCard from "@/components/ProjectCard";
+import type { ProjectCardProps } from "@/components/ProjectCard";
+import Divider from "@/components/Divider";
+import Footer from "@/components/sections/Footer";
 
-const lang = "en";
+const projectsList: ProjectCardProps[] = [
+  {
+    title: "Amanera — Gestión de Incidencias para Hoteles",
+    description:
+      "Plataforma completa para la gestión de incidencias en hoteles, con una app móvil para huéspedes y empleados, y un panel web administrativo. Los huéspedes reportan problemas desde su habitación, los empleados los gestionan en tiempo real, y los administradores supervisan todo desde el panel.",
+    image: "/amanera.webp",
+    tags: ["React Native", "Expo", "Next.js", "Tailwind CSS", "PostgreSQL"],
+    githubLink: "https://github.com/tuerre/incidents-app",
+    isLive: false,
+  },
+  {
+    title: "FluxoApp",
+    description:
+      "Aplicación web moderna para gestión de gastos personales con enfoque en UX, rendimiento y escalabilidad. Permite registrar gastos, categorías, presupuestos y métodos de pago, visualizar reportes financieros interactivos, comparar periodos y exportar a Excel.",
+    image: "/fluxo.webp",
+    tags: [
+      "Next.js",
+      "React",
+      "Node.js",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "TypeScript",
+    ],
+    liveLink: "https://fluxomanagement.vercel.app/",
+    githubLink: "https://github.com/tuerre/FluxoApp",
+    isLive: true,
+  },
+  {
+    title: "LunarPaws — Gestión de Usuarios y Animales",
+    description:
+      "Aplicación web que permite a los usuarios registrarse, iniciar sesión, tener un perfil público personalizado y gestionar animales. Construida con Astro y Tailwind en el frontend y Node.js con Express en el backend, utilizando Supabase como base de datos y autenticación segura con JWT.",
+    image: "/lunarpaws.webp",
+    tags: ["Node.js", "Express", "Supabase", "Astro", "React", "Tailwind CSS"],
+    githubLink: "https://github.com/tuerre/gestion-animales",
+    isLive: false,
+  },
+  {
+    title: "Focus Mode Extension",
+    description:
+      "Extensión para Google Chrome que permite bloquear ciertos sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK. Disponible en modo DEV.",
+    image: "/focusmode.webp",
+    tags: ["HTML5", "CSS3", "JavaScript", "Chrome Extension"],
+    githubLink: "https://github.com/tuerre/focus-mode-extension",
+    isLive: false,
+    isBuilding: true,
+  },
+];
+
+const total = projectsList.length;
+
+function cellClass(idx: number) {
+  return [
+    "px-8 py-6 md:px-16 md:py-8",
+    idx % 2 === 0 ? "md:pr-8 md:pl-16" : "md:pr-16 md:pl-8",
+    idx === total - 1 ? "border-b-0" : "border-b",
+    idx < 2 ? "md:border-b" : "md:border-b-0",
+    idx % 2 === 0 ? "md:border-r" : "md:border-r-0",
+  ].join(" ");
+}
+
+const description =
+  "Explora los proyectos desarrollados por Jendry De León Abreu, incluyendo sistemas de gestión de incidencias, aplicaciones de finanzas personales, gestión de usuarios y animales, y aplicaciones full-stack construidas con React, Next.js, Node.js, TypeScript y PostgreSQL.";
 ---
 
 <Layout
-  lang={lang}
-  title="Projects - Jendry De León Abreu"
-  description="All of Jendry De León Abreu's web development projects. Web applications, management systems, and more."
-  currentPage="projects"
+  title="Proyectos"
+  description={description}
+  keywords={[
+    "Jendry De León Abreu",
+    "Proyectos",
+    "Portfolio",
+    "Desarrollador Full Stack",
+    "Next.js",
+    "React",
+    "React Native",
+    "TypeScript",
+    "Node.js",
+    "Express",
+    "Astro",
+    "Supabase",
+    "Portfolio de Desarrollador",
+  ]}
+  canonicalPath="/projects"
+  ogImage="/og-projects.jpg"
+  ogImageAlt="Proyectos de Jendry De León Abreu"
+  ogTitle="Proyectos — Jendry De León Abreu"
+  ogDescription="Explora mi colección de aplicaciones full-stack y proyectos de desarrollo web."
 >
-  <main>
-    <SectionContainer class="pt-28 pb-16 relative">
-      <div class="max-w-7xl mx-auto px-4 mb-6">
-        <a
-          href="/"
-          class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-[#f2ce5a] transition-colors mb-6"
-        >
-          ← Home
-        </a>
-        <h1 class="text-4xl font-bold text-[#F1F1F1] mb-2">
-          All Projects
-        </h1>
-        <p class="text-gray-400">
-          A collection of my work and personal projects.
-        </p>
+  <Container>
+    <PageNavbar client:load title="Inicio" backHref="/" />
+    <PageHeading
+      title="Proyectos"
+      className="text-4xl"
+      subtitle="Una colección de proyectos que he construido!"
+    />
+    <div class="relative">
+      <div class="grid w-full grid-cols-1 md:grid-cols-2">
+        {
+          projectsList.map((project, idx) => (
+            <div class={cellClass(idx)}>
+              <ProjectCard client:visible {...project} />
+            </div>
+          ))
+        }
       </div>
-      <Proyectos lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer class="px-3 relative pb-8">
-      <Footer />
-    </SectionContainer>
-  </main>
+    </div>
+    <Divider />
+    <Footer />
+  </Container>
 </Layout>

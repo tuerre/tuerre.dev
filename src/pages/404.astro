@@ -1,39 +1,79 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SectionContainer from "../components/SectionContainer.astro";
+import Container from "../components/Container.astro";
+import PageNavbar from "@/components/PageNavbar";
+import Divider from "@/components/Divider";
+import Footer from "@/components/sections/Footer";
 ---
 
 <Layout
-  lang="en"
-  title="404 - Page Not Found | Jendry De León Abreu"
-  description="The page you are looking for was not found."
+  title="Página no encontrada"
+  description="La página que buscas no existe o fue movida. Vuelve al inicio para seguir explorando el portafolio."
+  canonicalPath="/404"
 >
-  <SectionContainer class="relative top-[50vh] translate-y-[-50%]">
-    <main class="flex flex-col gap-3 items-center justify-center">
-      <div class="flex justify-center mb-8">
-        <div class="relative">
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-xl"
-          >
-          </div>
-          <img
-            loading="lazy"
-            class="aspect-[480/266] w-full h-auto block"
-            src="/images/this-is-fine-404.gif"
-            alt="This is fine meme"
-          />
-        </div>
+  <Container>
+    <PageNavbar client:load title="Inicio" backHref="/" />
+
+    <section
+      class="relative flex min-h-[45vh] flex-col items-center justify-center px-8 py-20 text-center md:px-16 md:py-28"
+    >
+      <div
+        class="pointer-events-none absolute bottom-0 left-1/2 z-0 w-screen -translate-x-1/2 border-b"
+      >
       </div>
 
-      <h1 class="font-normal text-2xl text-[#F1F1F1]">
-        error <span class="font-bold">404</span>
+      <p
+        class="text-muted-foreground relative z-10 mb-6 font-sans text-xs tracking-[0.35em] uppercase"
+      >
+        Error 404
+      </p>
+      <h1
+        class="font-heading relative z-10 text-7xl leading-none tracking-tight sm:text-8xl md:text-9xl"
+      >
+        404
       </h1>
-      <span class="text-gray-300"
-        >The page you're looking for was not found...</span
+      <p class="font-heading relative z-10 mt-8 text-2xl md:text-3xl">
+        Esta página se perdió en el camino.
+      </p>
+      <p
+        class="text-muted-foreground relative z-10 mt-4 max-w-md text-sm leading-relaxed"
       >
-      <a href="/" class="underline text-[#f2ce5a] hover:text-[#f2ce5a]/70"
-        >Back to home</a
+        La página que buscas no existe, cambió de lugar o nunca estuvo aquí.
+        Prueba con uno de estos enlaces.
+      </p>
+    </section>
+
+    <nav class="relative grid w-full grid-cols-1 sm:grid-cols-3">
+      <a
+        href="/"
+        class="group relative z-10 flex flex-col gap-1 border-b px-8 py-6 transition-colors hover:bg-accent sm:border-r sm:border-b-0 md:px-12"
       >
-    </main>
-  </SectionContainer>
+        <span class="font-heading text-xl">Inicio</span>
+        <span class="text-muted-foreground text-sm"
+          >Volver a la página principal.</span
+        >
+      </a>
+      <a
+        href="/projects"
+        class="group relative z-10 flex flex-col gap-1 border-b px-8 py-6 transition-colors hover:bg-accent sm:border-r sm:border-b-0 md:px-12"
+      >
+        <span class="font-heading text-xl">Proyectos</span>
+        <span class="text-muted-foreground text-sm"
+          >Aplicaciones que he construido.</span
+        >
+      </a>
+      <a
+        href="/blog"
+        class="group relative z-10 flex flex-col gap-1 px-8 py-6 transition-colors hover:bg-accent md:px-12"
+      >
+        <span class="font-heading text-xl">Blog</span>
+        <span class="text-muted-foreground text-sm"
+          >Notas técnicas y aprendizajes.</span
+        >
+      </a>
+    </nav>
+
+    <Divider />
+    <Footer />
+  </Container>
 </Layout>

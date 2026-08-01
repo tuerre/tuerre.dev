@@ -1,0 +1,88 @@
+---
+title: "Cómo Configuré Firebase en un Proyecto Astro Sin Perder Horas"
+slug: "como-configurar-firebase-en-un-proyecto-astro"
+publishedAt: "2026-06-10"
+description: "Firebase y Astro no siempre se llevan bien por defecto, sobre todo con el renderizado en servidor. Aquí está la configuración que me hubiera ahorrado horas de errores."
+readingTime: "4 min de lectura"
+tags:
+  - Firebase
+  - Astro
+  - TypeScript
+  - Configuración
+  - Desarrollo Web
+---
+
+# Cómo Configuré Firebase en un Proyecto Astro Sin Perder Horas
+
+La primera vez que agregué Firebase a un proyecto en Astro, seguí la documentación oficial de Firebase al pie de la letra y me encontré con errores de "window is not defined" y variables de entorno que no llegaban al cliente. Aquí está la configuración que finalmente funcionó sin errores.
+
+## El problema: Astro renderiza en el servidor por defecto
+
+Firebase Web SDK espera correr en el navegador, pero Astro renderiza los componentes en el servidor durante el build. Si inicializas Firebase directamente en el frontmatter de un archivo `.astro`, vas a toparte con errores porque `window` no existe ahí.
+
+## Paso 1: Variables de entorno con el prefijo correcto
+
+Astro solo expone al cliente las variables de entorno que empiezan con `PUBLIC_`:
+
+```env
+PUBLIC_FIREBASE_API_KEY=tu-api-key
+PUBLIC_FIREBASE_AUTH_DOMAIN=tu-proyecto.firebaseapp.com
+PUBLIC_FIREBASE_PROJECT_ID=tu-proyecto
+```
+
+Si usas variables sin ese prefijo, van a estar disponibles en el servidor, pero `undefined` en cualquier código que corra en el navegador.
+
+## Paso 2: Aislar la inicialización de Firebase en su propio módulo
+
+En vez de inicializar Firebase directamente en un componente, lo centralicé en un archivo aparte:
+
+```ts
+// src/lib/firebase.ts
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+};
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+```
+
+El chequeo `getApps().length ? getApp() : initializeApp(...)` evita el error de "Firebase App named '[DEFAULT]' already exists", que ocurre si el módulo se vuelve a evaluar por el hot reload de Astro en desarrollo.
+
+## Paso 3: Solo usar Firebase dentro de componentes con directivas de cliente
+
+En Astro, un componente de React o Vue no se hidrata en el navegador a menos que se le agregue una directiva como `client:load`. Cualquier código que use `auth` de Firebase debe vivir dentro de uno de esos componentes, nunca en el frontmatter del `.astro`:
+
+```astro
+---
+import LoginForm from "../components/LoginForm.tsx";
+---
+
+<LoginForm client:load />
+```
+
+Y dentro de `LoginForm.tsx`, ya puedo importar `auth` sin problemas, porque ese componente solo se ejecuta en el navegador después de hidratarse.
+
+## Paso 4: Verificar el estado de sesión sin bloquear el render
+
+Para saber si el usuario ya tiene sesión iniciada, usé `onAuthStateChanged` dentro de un `useEffect`, con un estado de carga mientras Firebase resuelve la sesión:
+
+```ts
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    setUser(user);
+    setLoading(false);
+  });
+  return () => unsubscribe();
+}, []);
+```
+
+Sin ese estado de carga, la UI parpadea mostrando "no autenticado" por una fracción de segundo antes de que Firebase confirme la sesión real.
+
+Con estos cuatro pasos, Firebase y Astro conviven sin errores de hidratación ni de variables de entorno perdidas.
+
+Si quieres ver un proyecto real usando esta configuración, puedes revisar mi perfil de GitHub: [https://github.com/tuerre](https://github.com/tuerre)

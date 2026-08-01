@@ -1,0 +1,115 @@
+---
+title: "5 Errores que Cometí Aprendiendo TypeScript (y Cómo los Resolví)"
+slug: "5-errores-que-cometi-aprendiendo-typescript"
+publishedAt: "2026-07-12"
+description: "Cinco errores comunes que cometí al empezar con TypeScript, con ejemplos de código de antes y después, para que no pierdas el tiempo que yo perdí."
+readingTime: "4 min de lectura"
+tags:
+  - TypeScript
+  - Programación
+  - Tips
+  - Desarrollo Web
+  - Aprendizaje
+---
+
+# 5 Errores que Cometí Aprendiendo TypeScript (y Cómo los Resolví)
+
+Cuando empecé a migrar mis proyectos de JavaScript a TypeScript, pensé que solo era "JavaScript con tipos". Terminé cometiendo los mismos errores una y otra vez hasta que entendí qué problema resolvía cada uno. Aquí van los 5 más comunes.
+
+## 1. Usar `any` para silenciar errores
+
+Cuando TypeScript se quejaba de un tipo, mi solución rápida era ponerle `any` y seguir adelante:
+
+```ts
+function getUser(data: any) {
+  return data.name.toUpperCase();
+}
+```
+
+El problema es que `any` apaga el sistema de tipos por completo, así que perdés toda la ayuda del editor y el chequeo en tiempo de compilación. La solución fue usar `unknown` en su lugar y validar antes de usar el valor:
+
+```ts
+function getUser(data: unknown) {
+  if (typeof data === "object" && data !== null && "name" in data) {
+    return String((data as { name: unknown }).name).toUpperCase();
+  }
+  throw new Error("Formato de usuario inválido");
+}
+```
+
+## 2. No usar tipos genéricos y duplicar interfaces
+
+Antes creaba una interfaz distinta para cada respuesta de API, aunque compartieran la misma forma:
+
+```ts
+interface UserResponse {
+  data: User;
+  error: string | null;
+}
+
+interface ProductResponse {
+  data: Product;
+  error: string | null;
+}
+```
+
+En vez de eso, ahora uso un tipo genérico reutilizable:
+
+```ts
+interface ApiResponse<T> {
+  data: T;
+  error: string | null;
+}
+
+type UserResponse = ApiResponse<User>;
+type ProductResponse = ApiResponse<Product>;
+```
+
+## 3. Confundir `interface` con `type` y no saber cuándo usar cada uno
+
+Durante un tiempo usé `interface` y `type` sin ningún criterio. La regla que me funciona: uso `interface` para la forma de objetos que pueden extenderse (props de componentes, modelos), y `type` para uniones, alias e intersecciones:
+
+```ts
+type Status = "loading" | "success" | "error";
+
+interface ButtonProps {
+  label: string;
+  status: Status;
+}
+```
+
+## 4. Ignorar `strictNullChecks`
+
+Tenía `strict: false` en mi `tsconfig.json` porque me evitaba errores molestos de `undefined`. El problema es que esos errores en realidad me estaban avisando de bugs reales:
+
+```ts
+function getFirstTag(tags?: string[]) {
+  return tags[0]; // explota si tags es undefined
+}
+```
+
+Con `strictNullChecks` activado, TypeScript me obliga a manejar el caso:
+
+```ts
+function getFirstTag(tags?: string[]) {
+  return tags?.[0] ?? "sin-tag";
+}
+```
+
+## 5. No tipar el estado en React desde el inicio
+
+Dejaba que TypeScript infiriera el tipo de mis estados y terminaba con `useState` inferido como `never[]` o `undefined` en casos donde necesitaba más de un tipo:
+
+```ts
+const [user, setUser] = useState(null); // tipo: null
+```
+
+Ahora tipo explícitamente los estados que pueden cambiar de forma:
+
+```ts
+const [user, setUser] = useState<User | null>(null);
+```
+
+Ninguno de estos errores es grave por sí solo, pero juntos hacían que TypeScript se sintiera como un obstáculo en vez de una herramienta. Entender el "por qué" detrás de cada uno fue lo que realmente cambió mi forma de escribir código.
+
+Si quieres ver cómo aplico esto en proyectos reales, puedes revisar mi perfil de GitHub: [https://github.com/tuerre](https://github.com/tuerre)

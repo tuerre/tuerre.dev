@@ -1,94 +1,211 @@
 ---
-import Header from "../components/Header.astro";
-import SEO from "../components/SEO.astro";
-import "../styles/global.css";
-import "@fontsource-variable/onest";
+import "@/src/styles/globals.css";
+import StructuredData from "@/src/components/StructuredData.astro";
+
+const SITE = {
+  name: "Jendry De León Abreu",
+  defaultTitle: "Jendry De León Abreu — Full Stack Developer",
+  titleSuffix: "Jendry De León Abreu",
+  description:
+    "Desarrollador Web FullStack dominicano especializado en el desarrollo de aplicaciones web modernas y escalables en React y NodeJS.",
+  url: "https://tuerre.vercel.app",
+  image: "/og-hero.jpg",
+  twitterCreator: "@tuerredev",
+  jobTitle: "Desarrollador Web Full-Stack",
+  personImage: "/avatar.webp",
+  geoRegion: "DO",
+  geoPlacename: "Santo Domingo, República Dominicana",
+  googleSiteVerification: "EbPOgNvdlarDNR9HF-Vwf3JBZlBYn-lsqw7lZXQIg0k",
+};
+
+const DEFAULT_KEYWORDS = [
+  "Jendry De León Abreu",
+  "desarrollador web República Dominicana",
+  "desarrollador web Dominicana",
+  "desarrollador full stack dominicano",
+  "desarrollador frontend dominicano",
+  "desarrollador backend dominicano",
+  "desarrollador de software dominicano",
+  "React",
+  "React Native",
+  "Node.js",
+  "TypeScript",
+  "Astro",
+  "Portfolio",
+  "Proyectos",
+  "Blog Técnico",
+  "Santo Domingo",
+  "República Dominicana",
+];
 
 interface Props {
-  lang?: "en" | "es";
-  title: string;
-  description: string;
-  currentPage?: string;
-  seoType?: "website" | "article";
+  title?: string;
+  useTitleTemplate?: boolean;
+  description?: string;
+  keywords?: string[];
+  canonicalPath?: string;
+  ogType?: "website" | "article";
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  publishedTime?: string;
+  articleTags?: string[];
 }
 
 const {
-  lang = "en",
   title,
-  description,
-  currentPage = "",
-  seoType = "website",
+  useTitleTemplate = true,
+  description = SITE.description,
+  keywords = DEFAULT_KEYWORDS,
+  canonicalPath,
+  ogType = "website",
+  ogImage = SITE.image,
+  ogImageAlt = "Portfolio de Jendry De León Abreu",
+  ogTitle,
+  ogDescription,
+  publishedTime,
+  articleTags = [],
 } = Astro.props;
+
+const pageTitle = title
+  ? useTitleTemplate
+    ? `${title} | ${SITE.titleSuffix}`
+    : title
+  : SITE.defaultTitle;
+
+const canonicalURL = new URL(
+  canonicalPath ?? Astro.url.pathname,
+  SITE.url,
+).toString();
+const ogImageURL = new URL(ogImage, SITE.url).toString();
+const resolvedOgTitle = ogTitle ?? pageTitle;
+const resolvedOgDescription = ogDescription ?? description;
+
+// Tipo de nodo JSON-LD derivado de la ruta + ogType (sin tocar las páginas).
+const pathname = canonicalPath ?? Astro.url.pathname;
+const structuredDataType: "profile" | "collection" | "article" | "webpage" =
+  pathname === "/"
+    ? "profile"
+    : ogType === "article"
+      ? "article"
+      : pathname === "/projects" || pathname === "/blog"
+        ? "collection"
+        : "webpage";
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="es" class="h-full antialiased font-sans">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0D0E12" />
-    <meta name="language" content={lang === "es" ? "Spanish" : "English"} />
-    <meta name="geo.region" content="DO" />
-    <meta name="geo.placename" content="Santo Domingo, Dominican Republic" />
-    <meta name="rating" content="general" />
-    <meta name="distribution" content="global" />
-    <meta
-      name="keywords"
-      content="Jendry De León Abreu, desarrollador web República Dominicana, desarrollador web Dominicana, desarrollador full stack dominicano, desarrollador frontend dominicano, desarrollador backend dominicano, desarrollador de software dominicano, web developer Dominican Republic, React, Node.js, TypeScript, Astro"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(", ")} />
+    <meta name="application-name" content={SITE.name} />
+    <meta name="author" content={SITE.name} />
+    <meta name="creator" content={SITE.name} />
+    <meta name="publisher" content={SITE.name} />
+    <meta name="category" content="Tecnología" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no,email=no,address=no" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Verification / geo -->
     <meta
       name="google-site-verification"
-      content="EbPOgNvdlarDNR9HF-Vwf3JBZlBYn-lsqw7lZXQIg0k"
+      content={SITE.googleSiteVerification}
     />
-    <title>{title}</title>
-    <SEO
-      title={title}
+    <meta name="geo.region" content={SITE.geoRegion} />
+    <meta name="geo.placename" content={SITE.geoPlacename} />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="theme-color" content="#0D0E12" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="es_DO" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={resolvedOgTitle} />
+    <meta property="og:description" content={resolvedOgDescription} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    {publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={resolvedOgTitle} />
+    <meta name="twitter:description" content={resolvedOgDescription} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:creator" content={SITE.twitterCreator} />
+
+    <!-- Structured data (JSON-LD): título/descripción "limpios" (sin sufijo de marca). -->
+    <StructuredData
+      title={title ?? SITE.defaultTitle}
       description={description}
-      lang={lang}
-      currentPage={currentPage}
-      type={seoType}
+      canonicalUrl={canonicalURL}
+      pageType={structuredDataType}
+      image={ogImageURL}
+      publishedTime={publishedTime}
+      tags={articleTags}
     />
+
+    <style is:global>
+      :root {
+        --font-sans: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo,
+          monospace;
+        --font-heading: "Instrument Serif", ui-serif, Georgia, serif;
+      }
+    </style>
+
+    <!-- No-flash theme (mirrors next-themes: attribute="class", defaultTheme="system", enableSystem) -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme") || "system";
+          var resolved =
+            stored === "system"
+              ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"
+              : stored;
+          var root = document.documentElement;
+          root.classList.toggle("dark", resolved === "dark");
+          root.style.colorScheme = resolved;
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="relative text-[#F1F1F1]">
-    <div
-      class="absolute top-0 bottom-0 min-h-screen w-full -z-10 bg-gray-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
-    >
-    </div>
-    <Header lang={lang} currentPage={currentPage} />
+  <body class="flex min-h-full flex-col items-center overflow-x-clip">
     <slot />
+    <script>
+      import { inject } from "@vercel/analytics";
+      inject();
+    </script>
   </body>
 </html>
-
-<style is:global>
-  :root {
-    --nav-shadow-bg: rgba(30, 30, 35, 0.75);
-    color-scheme: dark;
-  }
-
-  html {
-    font-family: "Onest Variable", system-ui, sans-serif;
-    scroll-behavior: smooth;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    overscroll-behavior: none;
-    overflow-x: hidden;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  ::selection {
-    background-color: rgba(255, 255, 255, 0.078);
-  }
-</style>

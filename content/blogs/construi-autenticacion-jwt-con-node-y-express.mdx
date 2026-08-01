@@ -1,0 +1,79 @@
+---
+title: "Construí un Sistema de Autenticación con JWT en Node.js y Express, y Esto Aprendí"
+slug: "construi-autenticacion-jwt-con-node-y-express"
+publishedAt: "2026-06-22"
+description: "Construir mi propio sistema de login con JWT y bcrypt me enseñó más sobre seguridad de lo que esperaba. Estos son los errores que cometí y cómo los resolví."
+readingTime: "5 min de lectura"
+tags:
+  - Node.js
+  - Express
+  - JWT
+  - Seguridad
+  - Backend
+---
+
+# Construí un Sistema de Autenticación con JWT en Node.js y Express, y Esto Aprendí
+
+Cuando construí el login para uno de mis proyectos, decidí no usar ninguna librería de autenticación lista y armar el flujo de JWT yo mismo, para entender bien qué pasaba en cada paso. Terminé aprendiendo más sobre seguridad de lo que esperaba, casi siempre a la fuerza.
+
+## 1. Guardar contraseñas en texto plano nunca es una opción
+
+Al principio, en mis pruebas locales, guardaba la contraseña tal como llegaba del formulario. Funcionaba, pero cualquier filtración de la base de datos hubiera expuesto las contraseñas de todos los usuarios. La solución es usar `bcrypt` para generar un hash antes de guardar:
+
+```ts
+import bcrypt from "bcrypt";
+
+const hashedPassword = await bcrypt.hash(plainPassword, 10);
+```
+
+Y para validar el login, nunca comparo strings directamente, uso `bcrypt.compare`:
+
+```ts
+const isValid = await bcrypt.compare(plainPassword, user.hashedPassword);
+```
+
+## 2. Tokens sin expiración son una bomba de tiempo
+
+Mi primera versión generaba el JWT sin fecha de expiración, así que un token robado servía para siempre. La solución es siempre definir un `expiresIn`:
+
+```ts
+import jwt from "jsonwebtoken";
+
+const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+  expiresIn: "15m",
+});
+```
+
+## 3. Access tokens de larga duración obligan a re-loguearse todo el tiempo
+
+Si el token dura poco (por seguridad), pero no hay forma de renovarlo, el usuario tiene que loguearse cada 15 minutos, lo cual es una mala experiencia. La solución fue agregar un refresh token de mayor duración, guardado en una cookie `httpOnly`, que se usa solo para pedir un nuevo access token:
+
+```ts
+res.cookie("refreshToken", refreshToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+```
+
+## 4. Guardar el JWT en localStorage lo expone a ataques XSS
+
+Al principio guardaba el access token en `localStorage` para poder leerlo fácilmente desde el frontend. El problema es que cualquier script malicioso inyectado en la página puede leer `localStorage` y robar el token. Ahora guardo el access token solo en memoria (en el estado de la app) y el refresh token en una cookie `httpOnly`, que JavaScript no puede leer directamente.
+
+## 5. No validar el payload del token antes de confiar en él
+
+Al validar el JWT, solo revisaba que la firma fuera correcta, pero no verificaba que el `userId` dentro del payload todavía existiera en la base de datos (por ejemplo, si el usuario fue eliminado). La solución fue siempre volver a consultar el usuario en cada petición protegida:
+
+```ts
+const payload = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+const user = await db.user.findUnique({ where: { id: payload.userId } });
+
+if (!user) {
+  throw new Error("Usuario no encontrado");
+}
+```
+
+Armar mi propio sistema de autenticación fue más trabajo que instalar una librería, pero entender cada una de estas decisiones me dio mucha más confianza a la hora de auditar la seguridad de mis propios proyectos.
+
+Si quieres ver el código completo, puedes revisar mi perfil de GitHub: [https://github.com/tuerre](https://github.com/tuerre)
