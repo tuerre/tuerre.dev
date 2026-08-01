@@ -29,6 +29,7 @@ const blogLastmod = readBlogLastmod();
 // https://astro.build/config
 export default defineConfig({
   site: "https://tuerre.vercel.app",
+  trailingSlash: "ignore",
   adapter: vercel(),
   redirects: {
   "/resume": "/CV-JendryDeLeonAbreu.pdf",
