@@ -9,8 +9,8 @@
   Instagram: https://instagram.com/de1eonzz
 
 /* SITE */
-  Last update: 2026/06/02
-  Languages: English, Español
+  Last update: 2026/06/01
+  Languages: Español
   Standards: HTML5, CSS3, WCAG 2.1
   Components: Astro, TailwindCSS, TypeScript
   Hosting: Vercel

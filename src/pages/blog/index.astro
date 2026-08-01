@@ -1,0 +1,76 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+import { getCollection } from "astro:content";
+import PageNavbar from "@/components/PageNavbar";
+import PageHeading from "@/components/PageHeading";
+import BlogCard from "@/components/BlogCard";
+import Divider from "@/components/Divider";
+import Footer from "@/components/sections/Footer";
+
+const allBlogs = (await getCollection("blogs")).sort(
+  (a, b) =>
+    new Date(b.data.publishedAt).getTime() -
+    new Date(a.data.publishedAt).getTime(),
+);
+const total = allBlogs.length;
+
+function cellClass(idx: number) {
+  return [
+    "px-8 py-6 md:px-16 md:py-8",
+    idx % 2 === 0 ? "md:pr-8 md:pl-16" : "md:pr-16 md:pl-8",
+    idx === total - 1 ? "border-b-0" : "border-b",
+    idx < 2 ? "md:border-b" : "md:border-b-0",
+    idx % 2 === 0 ? "md:border-r" : "md:border-r-0",
+  ].join(" ");
+}
+---
+
+<Layout
+  title="Blog"
+  description="Artículos técnicos sobre desarrollo de software, desarrollo web, TypeScript, React, Next.js, desarrollo backend, y lecciones aprendidas construyendo proyectos."
+  keywords={[
+    "Blog de Programación",
+    "Blog de Desarrollador",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Ingeniería de Software",
+    "Backend",
+    "Jendry De León Abreu",
+  ]}
+  canonicalPath="/blog"
+  ogImage="/og-blogs.jpg"
+  ogImageAlt="Blog de Jendry De León Abreu"
+  ogDescription="Pensamientos, tutoriales y lecciones construyendo software."
+>
+  <Container>
+    <PageNavbar client:load title="Inicio" backHref="/" />
+    <PageHeading
+      title="Blog"
+      subtitle="Escribo de vez en cuando cuando construyo algo o simplemente quiero anotar mis pensamientos."
+    />
+    <div class="relative">
+      <div class="grid w-full grid-cols-1 md:grid-cols-2">
+        {
+          allBlogs.map((blog, idx) => (
+            <div class={cellClass(idx)}>
+              <BlogCard blog={blog.data} />
+            </div>
+          ))
+        }
+        {
+          allBlogs.length === 0 && (
+            <div class="col-span-full">
+              <p class="text-muted-foreground mt-8 text-center">
+                No se encontraron blogs.
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+    <Divider />
+    <Footer />
+  </Container>
+</Layout>

@@ -1,35 +1,42 @@
 ---
-// Reusable JSON-LD structured data. Emits a single @graph with the
-// site-wide Person + WebSite entities plus a node for the current page.
+// JSON-LD estructurado (español-only). Emite un único @graph con la entidad
+// Person (site-wide) + el nodo de la página actual, y SOLO en la home añade el
+// nodo WebSite (señal del "site name" que muestra Google). En el resto de páginas
+// el nodo referencia el WebSite por @id (identificador global; el nodo completo
+// vive en la home y los buscadores lo fusionan por @id).
 const SITE_URL = "https://tuerre.vercel.app";
 
 interface Props {
-  lang: "en" | "es";
   title: string;
   description: string;
   canonicalUrl: string;
-  currentPage?: string;
+  pageType: "profile" | "collection" | "article" | "webpage";
+  image?: string;
+  publishedTime?: string;
+  tags?: string[];
 }
 
-const { lang, title, description, canonicalUrl, currentPage = "" } =
-  Astro.props;
+const {
+  title,
+  description,
+  canonicalUrl,
+  pageType,
+  image,
+  publishedTime,
+  tags = [],
+} = Astro.props;
 
-const inLanguage = lang === "es" ? "es-DO" : "en-US";
+const inLanguage = "es-DO";
 
 const person = {
   "@type": "Person",
   "@id": `${SITE_URL}/#person`,
   name: "Jendry De León Abreu",
   url: SITE_URL,
-  image: `${SITE_URL}/me.webp`,
-  jobTitle:
-    lang === "es"
-      ? "Desarrollador Web Full-Stack"
-      : "Full-Stack Web Developer",
+  image: `${SITE_URL}/avatar.webp`,
+  jobTitle: "Desarrollador Web Full-Stack",
   description:
-    lang === "es"
-      ? "Desarrollador web full stack dominicano de Santo Domingo, República Dominicana, especializado en React, Node.js y TypeScript."
-      : "Dominican full-stack web developer based in Santo Domingo, Dominican Republic, specializing in React, Node.js and TypeScript.",
+    "Desarrollador web full stack dominicano de Santo Domingo, República Dominicana, especializado en React, Node.js y TypeScript.",
   nationality: { "@type": "Country", name: "Dominican Republic" },
   address: {
     "@type": "PostalAddress",
@@ -59,18 +66,17 @@ const person = {
 const website = {
   "@type": "WebSite",
   "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
+  url: `${SITE_URL}/`,
   name: "Jendry De León Abreu",
+  alternateName: "Jendry De León",
   description:
-    lang === "es"
-      ? "Portafolio de Jendry De León Abreu, desarrollador web full stack en República Dominicana."
-      : "Portfolio of Jendry De León Abreu, full-stack web developer in the Dominican Republic.",
+    "Portafolio de Jendry De León Abreu, desarrollador web full stack en República Dominicana.",
   inLanguage,
   publisher: { "@id": `${SITE_URL}/#person` },
 };
 
 let pageNode;
-if (!currentPage) {
+if (pageType === "profile") {
   pageNode = {
     "@type": "ProfilePage",
     "@id": `${canonicalUrl}#webpage`,
@@ -82,7 +88,7 @@ if (!currentPage) {
     about: { "@id": `${SITE_URL}/#person` },
     mainEntity: { "@id": `${SITE_URL}/#person` },
   };
-} else if (currentPage === "projects") {
+} else if (pageType === "collection") {
   pageNode = {
     "@type": "CollectionPage",
     "@id": `${canonicalUrl}#webpage`,
@@ -92,6 +98,22 @@ if (!currentPage) {
     inLanguage,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#person` },
+  };
+} else if (pageType === "article") {
+  pageNode = {
+    "@type": "BlogPosting",
+    "@id": `${canonicalUrl}#webpage`,
+    mainEntityOfPage: canonicalUrl,
+    url: canonicalUrl,
+    headline: title,
+    description,
+    inLanguage,
+    ...(image ? { image } : {}),
+    ...(publishedTime ? { datePublished: publishedTime } : {}),
+    author: { "@id": `${SITE_URL}/#person` },
+    publisher: { "@id": `${SITE_URL}/#person` },
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    ...(tags.length ? { keywords: tags.join(", ") } : {}),
   };
 } else {
   pageNode = {
@@ -106,9 +128,13 @@ if (!currentPage) {
   };
 }
 
+// WebSite solo en la home (pageType === "profile").
 const graph = {
   "@context": "https://schema.org",
-  "@graph": [person, website, pageNode],
+  "@graph":
+    pageType === "profile"
+      ? [person, website, pageNode]
+      : [person, pageNode],
 };
 ---
 

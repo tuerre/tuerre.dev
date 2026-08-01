@@ -1,32 +1,4 @@
-# https://tuerre.vercel.app — robots.txt
-
 User-agent: *
 Allow: /
 
-# Major search engines (explicit, full access)
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# AI / training crawlers — uncomment to disallow
-# User-agent: GPTBot
-# Disallow: /
-# User-agent: CCBot
-# Disallow: /
-
-Host: https://tuerre.vercel.app
 Sitemap: https://tuerre.vercel.app/sitemap-index.xml
