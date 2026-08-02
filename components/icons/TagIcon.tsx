@@ -3,9 +3,13 @@ import {
   FaGitAlt,
   FaGithub,
   FaFigma,
-  FaHtml5,
+  FaChrome,
   FaCss3Alt,
+  FaReact,
+  FaHtml5,
 } from "react-icons/fa";
+import { TbBrandReactNative } from "react-icons/tb";
+import { BiLogoPostgresql } from "react-icons/bi";
 import {
   SiNextdotjs,
   SiTailwindcss,
@@ -13,6 +17,7 @@ import {
   SiJavascript,
   SiShadcnui,
   SiExpress,
+  SiOllama,
   SiMongodb,
   SiCloudinary,
   SiC,
@@ -26,6 +31,7 @@ import {
   SiReact,
   SiNodedotjs,
   SiTurborepo,
+  SiExpo,
 } from "react-icons/si";
 import { TbSql } from "react-icons/tb";
 import { TbWorld, TbApi } from "react-icons/tb";
@@ -54,6 +60,44 @@ const getTagIcon = (tag: string) => {
       return <SiVercel size={14} />;
     case "tailwind css":
       return <SiTailwindcss />;
+    case "expo":
+      return <SiExpo size={14} />;
+    case "react native":
+      return <TbBrandReactNative size={14} />;
+    case "postgresql":
+      return <BiLogoPostgresql size={14} />;
+    case "html5":
+      return <FaHtml5 size={14} />;
+    case "css3":
+      return <FaCss3Alt size={14} />;
+    case "javascript":
+      return <SiJavascript size={14} />;
+    case "shadcn/ui":
+      return <SiShadcnui size={14} />;
+    case "supabase":
+      return <SiSupabase size={14} />;
+    case "postman":
+      return <SiPostman size={14} />;
+    case "cloudinary":
+      return <SiCloudinary size={14} />;
+    case "c":
+      return <SiC size={14} />;
+    case "c++":
+      return <SiCplusplus size={14} />;
+    case "vite":
+      return <SiVite size={14} />;
+    case "sql":
+      return <TbSql size={14} />;
+    case "github":
+      return <FaGithub size={14} />;
+    case "figma":
+      return <FaFigma size={14} />;
+    case "chrome extension":
+      return <FaChrome size={14} />;
+    case "react":
+      return <FaReact size={14} />;
+    case "llama":
+      return <SiOllama size={14} />;
     default:
       return (
         <span className="font-mono text-[10px] font-bold">
