@@ -1,65 +1,77 @@
 import Heading from "@/components/Heading";
 import ScaleX from "@/components/ScaleX";
-import ProjectCard, { ProjectCardProps } from "@/components/ProjectCard";
+import ProjectCard, { type ProjectCardProps } from "@/components/ProjectCard";
 import { cn } from "@/lib/utils";
 import HeadingButton from "@/components/HeadingButton";
 
 const projectsList: ProjectCardProps[] = [
   {
-    title: "Amanera — Gestión de Incidencias para Hoteles",
+    title: "Amanera",
     description:
-      "Plataforma completa para la gestión de incidencias en hoteles, con una app móvil para huéspedes y empleados, y un panel web administrativo. Los huéspedes reportan problemas desde su habitación, los empleados los gestionan en tiempo real, y los administradores supervisan todo desde el panel.",
+      "Plataforma completa para la gestión de incidencias en hoteles. Los huéspedes reportan problemas desde su habitación, los empleados los gestionan en tiempo real, y los administradores supervisan todo desde el panel.",
     image: "/amanera.webp",
     tags: ["React Native", "Expo", "Next.js", "Tailwind CSS", "PostgreSQL"],
     githubLink: "https://github.com/tuerre/incidents-app",
     isLive: false,
   },
   {
+    title: "Taipeando",
+    description:
+      "Taipeando es una herramienta de refinamiento de texto con IA que mejora la gramática del texto, refina el tono, el tipo y la longitud.",
+    image: "/taipeando.webp",
+    tags: ["Groq", "React", "Next.js", "Llama", "TypeScript", "Tailwind CSS"],
+    liveLink: "https://taipeando.vercel.app",
+    githubLink: "https://github.com/tuerre/taipeando",
+    isLive: true,
+  },
+  {
     title: "FluxoApp",
     description:
-      "Aplicación web moderna para gestión de gastos personales con enfoque en UX, rendimiento y escalabilidad. Permite registrar gastos, categorías, presupuestos y métodos de pago, visualizar reportes financieros interactivos, comparar periodos y exportar a Excel.",
+      "Aplicación web moderna para gestión de gastos personales. Permite registrar gastos, categorías, presupuestos y métodos de pago, visualizar reportes financieros interactivos, comparar periodos y exportar a Excel.",
     image: "/fluxo.webp",
     tags: [
       "Next.js",
       "React",
-      "Node.js",
       "Supabase",
       "PostgreSQL",
       "Tailwind CSS",
       "TypeScript",
     ],
-    liveLink: "https://fluxomanagement.vercel.app/",
+    liveLink: "https://fluxomanagement.vercel.app",
     githubLink: "https://github.com/tuerre/FluxoApp",
     isLive: true,
   },
   {
-    title: "LunarPaws — Gestión de Usuarios y Animales",
-    description:
-      "Aplicación web que permite a los usuarios registrarse, iniciar sesión, tener un perfil público personalizado y gestionar animales. Construida con Astro y Tailwind en el frontend y Node.js con Express en el backend, utilizando Supabase como base de datos y autenticación segura con JWT.",
-    image: "/lunarpaws.webp",
-    tags: ["Node.js", "Express", "Supabase", "Astro", "React", "Tailwind CSS"],
-    githubLink: "https://github.com/tuerre/gestion-animales",
-    isLive: false,
-  },
-  {
     title: "Focus Mode Extension",
     description:
-      "Extensión para Google Chrome que permite bloquear ciertos sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK. Disponible en modo DEV.",
+      "Extensión para Google Chrome que permite bloquear sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK.",
     image: "/focusmode.webp",
     tags: ["HTML5", "CSS3", "JavaScript", "Chrome Extension"],
     githubLink: "https://github.com/tuerre/focus-mode-extension",
     isLive: false,
     isBuilding: true,
   },
+  {
+    title: "LunarPaws",
+    description:
+      "Aplicación web que permite a los usuarios registrarse, iniciar sesión, tener un perfil público personalizado y gestionar animales.",
+    image: "/lunarpaws.webp",
+    tags: ["Node.js", "Express", "Supabase", "Astro", "React", "Tailwind CSS"],
+    githubLink: "https://github.com/tuerre/gestion-animales",
+    isLive: false,
+  },
 ];
 
+const MAX_HOME_PROJECTS = 4;
+
 export default function Projects() {
-  const total = projectsList.length;
+  const displayedProjects = projectsList.slice(0, MAX_HOME_PROJECTS);
+  const total = displayedProjects.length;
   return (
     <div className="relative">
       <Heading title="Proyectos" />
       <div className="grid w-full grid-cols-1 md:grid-cols-2">
-        {projectsList.map((project, idx) => (
+        {displayedProjects.map((project, idx) => (
           <div
             key={idx}
             className={cn(
