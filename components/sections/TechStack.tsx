@@ -25,6 +25,7 @@ import {
   SiPostgresql,
   SiMysql,
   SiAstro,
+  SiDiscorddotjs,
 } from "react-icons/si";
 import { TbBrandCSharp, TbBrandReactNative } from "react-icons/tb";
 import { DiMsqlServer } from "react-icons/di";
@@ -114,6 +115,12 @@ const stackItems: StackItem[] = [
     title: "Express",
     icon: <SiExpress />,
     url: "https://expressjs.com/",
+    type: "backend",
+  },
+  {
+    title: "Discord.js",
+    icon: <SiDiscorddotjs />,
+    url: "https://discord.js.org/",
     type: "backend",
   },
   {
