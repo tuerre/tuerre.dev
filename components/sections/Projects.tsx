@@ -42,6 +42,21 @@ const projectsList: ProjectCardProps[] = [
     isLive: true,
   },
   {
+    title: "SyntBot",
+    description:
+      "Bot privado de Discord para la moderación de servidores. Permite gestionar roles, canales, mensajes y usuarios, con comandos de moderación y administración, logs avanzandos y un sistema de sanciones automatizado por niveles.",
+    image: "/amanera.webp",
+    tags: [
+      "Node.js",
+      "Discord.js",
+      "PostgreSQL",
+      "Panel de Administración con Vue.js",
+    ],
+    githubLink: "https://github.com/tuerre/SyntBot",
+    isLive: false,
+    isBuilding: true,
+  },
+  {
     title: "Focus Mode Extension",
     description:
       "Extensión para Google Chrome que permite bloquear sitios web durante un período de tiempo definido. Permite gestionar los sitios bloqueados, bloquearlos durante un tiempo específico y personalizar el modo AFK.",
