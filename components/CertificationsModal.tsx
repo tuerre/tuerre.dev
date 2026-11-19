@@ -21,6 +21,18 @@ interface Certification {
 
 const certifications: Certification[] = [
   {
+    title: "Galactic Problem Solver — NASA Space Apps Challenge",
+    issuer: "NASA Space Apps Challenge",
+    date: "Noviembre 2026",
+    url: "/certificados/nasa-space-apps-challenge-2026.pdf",
+  },
+  {
+    title: "Fundamentos de Nube",
+    issuer: "AWS Entrena LATAM",
+    date: "Octubre 2026",
+    url: "/certificados/aws-fundamentos-de-nube.pdf",
+  },
+  {
     title: "Ganador competencia Code4Change",
     issuer: "TheCodingSpace",
     date: "Marzo 2026",
@@ -85,7 +97,14 @@ export default function CertificationsModal({
       {open && (
         <DialogPopup>
           <div className="flex items-center justify-between border-b px-5 py-4">
-            <DialogTitle>Certificaciones</DialogTitle>
+            <div className="flex items-center gap-2">
+              <DialogTitle>Certificaciones</DialogTitle>
+              <img
+                src="/certificados/cloud-fundamentals.svg"
+                alt="Cloud Fundamentals"
+                className="h-7 w-7"
+              />
+            </div>
             <DialogClose className="hover:bg-muted flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors">
               <X size={16} />
             </DialogClose>

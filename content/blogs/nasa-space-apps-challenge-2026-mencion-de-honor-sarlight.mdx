@@ -1,0 +1,73 @@
+---
+title: "NASA Space Apps Challenge 2026: Cómo Construimos SarLight y Ganamos una Mención de Honor"
+slug: "nasa-space-apps-challenge-2026-mencion-de-honor-sarlight"
+publishedAt: "2026-11-19"
+description: "La historia detrás de SarLight, el proyecto con el que un equipo de 3 desarrolladores dominicanos obtuvo una mención de honor en el NASA Space Apps Challenge 2026 usando datos del satélite NISAR."
+readingTime: "6 min de lectura"
+image: "/sarlight.webp"
+tags:
+  - NASA Space Apps
+  - NISAR
+  - Next.js
+  - Hackathon
+  - Proyectos
+---
+
+# NASA Space Apps Challenge 2026: Cómo Construimos SarLight y Ganamos una Mención de Honor
+
+El **NASA Space Apps Challenge** es el hackatón más grande del mundo sobre datos abiertos de la NASA. En la edición 2026 participé junto a otros dos desarrolladores con un proyecto llamado **SarLight**, que terminó recibiendo una **mención de honor**. En este artículo cuento qué construimos, cómo lo planteamos y qué aprendí.
+
+## El reto: "Dancing with the SARs"
+
+El desafío giraba en torno a **NISAR**, el satélite de radar de apertura sintética (SAR) desarrollado por la NASA y la agencia espacial india ISRO. Un radar de este tipo puede "ver" a través de las nubes y de noche, y mide cambios en la superficie de la Tierra con mucha precisión.
+
+El problema es que esos datos son difíciles de interpretar si no eres científico. Nuestra pregunta fue: **¿cómo hacemos que alguien sin formación en teledetección entienda lo que el radar está viendo?**
+
+## Qué es SarLight
+
+SarLight es un **globo interactivo** que convierte datos reales de radar en historias que cualquier persona puede seguir:
+
+- Inundaciones que se llevan viviendas.
+- Viento que arrasa una cosecha.
+- Calor y sequía que secan la tierra.
+- Deslizamientos de terreno.
+- Terremotos que mueven el suelo decenas de centímetros.
+- Glaciares que se deslizan hacia el mar.
+
+Analizamos **82 casos**: 24 en República Dominicana y 58 en el resto del mundo. Todo está pensado "desde la República Dominicana hacia el mundo", y puedes probarlo en [sarlight.vercel.app](https://sarlight.vercel.app).
+
+## Tres audiencias, tres vistas
+
+Una decisión clave fue no escribir para un solo tipo de usuario:
+
+| Para quién | Qué ve |
+| --- | --- |
+| Todo el mundo | Una vista simple en palabras claras, un modo historia paso a paso y tarjetas "¿Por qué?" que explican la ciencia |
+| Comunidades | "¿Mi comunidad está en riesgo?", cuántas personas viven en el terreno que cambió y qué hacer, con los teléfonos de emergencia locales |
+| Científicos | Una vista técnica con umbrales, polarizaciones, métodos y descargas en JSON y GeoJSON |
+
+## Honestidad con los datos
+
+Algo de lo que estoy orgulloso es que **nada está simulado**. Cada cifra sale de escenas reales de radar procesadas por nuestro propio pipeline. Además, la aplicación dice claramente que un cambio detectado es *una pista, no un veredicto*: nada se ha verificado en el terreno.
+
+En un proyecto que habla de inundaciones y personas, la honestidad sobre los límites de los datos importa tanto como la tecnología.
+
+## El stack
+
+- **Python** para procesar los análisis de radar y exportar los resultados.
+- **Next.js y React** para la aplicación web y el globo interactivo.
+- **Groq y modelos gratuitos de OpenRouter** para un asistente que responde únicamente con base en los análisis del proyecto, con respuestas integradas de respaldo si ningún proveedor está disponible.
+- **Vercel** para el despliegue.
+
+También integramos datos abiertos complementarios: clima del reanálisis ERA5, terremotos del catálogo del USGS, población de GHSL y cobertura del suelo de ESA WorldCover.
+
+## Lo que aprendí
+
+1. **Un hackatón se gana con una historia, no con una lista de funciones.** Cada caso cuenta una cadena causal: causa, efecto en el terreno, lo que midió el radar y lo que viven las personas.
+2. **Dividir bien el trabajo entre tres.** Separar el procesamiento de datos, la interfaz y el contenido nos permitió avanzar en paralelo.
+3. **Los datos abiertos son una oportunidad enorme.** Todo lo que usamos es público y gratuito.
+4. **Diseñar para límites reales.** Usar capas gratuitas nos obligó a mantener los prompts pequeños y a tener respaldos.
+
+## Cierre
+
+Recibir una mención de honor en el NASA Space Apps Challenge fue una validación enorme para mí como desarrollador desde República Dominicana. Puedes ver el código en [GitHub](https://github.com/Bryan-De-Jesus-Mejia/SarLight-NSAC2026) y revisar mis otros [proyectos](/projects). Si quieres hablar de hackatones, datos satelitales o desarrollo web, escríbeme.
