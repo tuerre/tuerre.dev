@@ -1,0 +1,101 @@
+---
+title: "Dashboard Seguro con Código OTP por Correo en Astro y Firebase"
+slug: "dashboard-seguro-con-otp-por-correo-astro-firebase"
+publishedAt: "2026-10-28"
+description: "Cómo proteger un dashboard de administración con códigos de un solo uso (OTP) enviados por correo, usando Astro, Node.js y Firebase. Basado en el proyecto Grupo Leones."
+readingTime: "6 min de lectura"
+image: "/blog/dashboard-otp-astro-firebase.svg"
+tags:
+  - Astro
+  - Firebase
+  - Seguridad
+  - Node.js
+  - Autenticación
+---
+
+# Dashboard Seguro con Código OTP por Correo en Astro y Firebase
+
+En el proyecto **Grupo Leones**, una landing page con formulario de contacto y gestión de suscriptores, necesitaba proteger el dashboard del administrador sin montar un sistema completo de usuarios y contraseñas. La solución fue un **OTP (One-Time Password) enviado por correo**.
+
+## Por qué OTP en vez de contraseña
+
+Cuando solo hay un administrador, una contraseña fija es un riesgo innecesario: puede filtrarse, reutilizarse o adivinarse. Un código que:
+
+- se envía al correo del administrador,
+- dura solo **5 minutos**,
+- y sirve **una sola vez**,
+
+reduce mucho la superficie de ataque y no hay nada que recordar.
+
+## El flujo
+
+1. El administrador pide acceso al dashboard.
+2. El servidor genera un código aleatorio y lo guarda con su fecha de expiración.
+3. Se envía el código al correo del administrador por SMTP.
+4. El administrador lo introduce y el servidor lo valida.
+5. Si es correcto, se crea una sesión y el código se invalida.
+
+## Generar el código de forma segura
+
+Usa un generador criptográfico, no `Math.random()`:
+
+```ts
+import { randomInt } from "node:crypto";
+
+export function generarOtp(): string {
+  return randomInt(0, 1_000_000).toString().padStart(6, "0");
+}
+```
+
+## Guardar con expiración
+
+Guarda un **hash** del código y su caducidad, no el código en claro:
+
+```ts
+import { createHash } from "node:crypto";
+
+const hash = (codigo: string) =>
+  createHash("sha256").update(codigo).digest("hex");
+
+await db.collection("otp").doc("admin").set({
+  hash: hash(codigo),
+  expiraEn: Date.now() + 5 * 60 * 1000,
+  intentos: 0,
+});
+```
+
+## Validar con límites
+
+```ts
+const doc = await db.collection("otp").doc("admin").get();
+const otp = doc.data();
+
+if (!otp || Date.now() > otp.expiraEn) throw new Error("Código expirado");
+if (otp.intentos >= 5) throw new Error("Demasiados intentos");
+
+if (hash(codigoIngresado) !== otp.hash) {
+  await doc.ref.update({ intentos: otp.intentos + 1 });
+  throw new Error("Código incorrecto");
+}
+
+await doc.ref.delete(); // un solo uso
+```
+
+Tres reglas importantes: **expiración**, **límite de intentos** y **eliminación tras el uso**.
+
+## Qué incluye el dashboard
+
+- Lista de suscriptores con envío de correos individuales o masivos.
+- Estadísticas de visitas mensuales.
+- Un PDF descargable con todos los correos suscritos.
+
+## Errores que conviene evitar
+
+- Guardar el código en texto plano.
+- No limitar los intentos de validación.
+- Reutilizar el mismo código varias veces.
+- Dejar la validación solo en el frontend: **siempre valida en el servidor**.
+
+## Conclusión
+
+Un OTP por correo es una solución sencilla y segura para paneles con pocos administradores. Si trabajas con Firebase en Astro, mi guía sobre [cómo configurar Firebase en Astro](/blog/como-configurar-firebase-en-un-proyecto-astro) te ahorrará varios errores, y puedes ver más trabajos en [proyectos](/projects).

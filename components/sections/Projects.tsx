@@ -6,6 +6,17 @@ import HeadingButton from "@/components/HeadingButton";
 
 const projectsList: ProjectCardProps[] = [
   {
+    title: "SarLight — NASA Space Apps Challenge 2026",
+    description:
+      "Globo interactivo que convierte datos reales de radar del satélite NISAR (NASA–ISRO) en historias fáciles de entender: inundaciones, vientos, sequías, deslizamientos, sismos y glaciares. Más de 80 casos analizados desde República Dominicana hasta el mundo. Desarrollado en equipo de 3 para el NASA Space Apps Challenge, con mención de honor.",
+    image: "/sarlight.webp",
+    tags: ["Next.js", "React", "TypeScript", "Python", "NASA NISAR", "Groq"],
+    liveLink: "https://sarlight.vercel.app",
+    githubLink: "https://github.com/Bryan-De-Jesus-Mejia/SarLight-NSAC2026",
+    isLive: true,
+    award: "Mención de Honor · NASA Space Apps",
+  },
+  {
     title: "Amanera",
     description:
       "Plataforma completa para la gestión de incidencias en hoteles. Los huéspedes reportan problemas desde su habitación, los empleados los gestionan en tiempo real, y los administradores supervisan todo desde el panel.",

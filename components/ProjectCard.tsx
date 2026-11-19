@@ -29,6 +29,7 @@ export interface ProjectCardProps {
   githubLink?: string;
   isLive?: boolean;
   isBuilding?: boolean;
+  award?: string;
 }
 
 export default function ProjectCard({
@@ -40,6 +41,7 @@ export default function ProjectCard({
   githubLink,
   isLive = false,
   isBuilding = false,
+  award,
 }: ProjectCardProps) {
   return (
     <Card className="group/card relative mx-auto w-full rounded-2xl border bg-transparent pt-0 shadow-none ring-0">
@@ -49,6 +51,11 @@ export default function ProjectCard({
           alt={title}
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-105"
         />
+        {award && (
+          <span className="bg-background/80 text-foreground absolute top-2 left-2 rounded-full border px-2.5 py-1 text-[10px] font-medium tracking-tight backdrop-blur-sm">
+            🏅 {award}
+          </span>
+        )}
       </div>
       <CardHeader className="pt-0">
         <div className="flex items-center justify-between gap-2">

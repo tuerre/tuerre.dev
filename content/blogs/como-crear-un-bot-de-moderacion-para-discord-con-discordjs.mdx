@@ -1,0 +1,130 @@
+---
+title: "Cómo Crear un Bot de Moderación para Discord con discord.js (Guía Paso a Paso)"
+slug: "como-crear-un-bot-de-moderacion-para-discord-con-discordjs"
+publishedAt: "2026-11-05"
+description: "Aprende a crear un bot de moderación para Discord con Node.js y discord.js: configuración, comandos slash, sanciones por niveles y buenas prácticas, basado en mi experiencia con SyntBot."
+readingTime: "7 min de lectura"
+image: "/blog/bot-moderacion-discordjs.svg"
+tags:
+  - Discord.js
+  - Node.js
+  - Bots
+  - JavaScript
+  - Tutorial
+---
+
+# Cómo Crear un Bot de Moderación para Discord con discord.js (Guía Paso a Paso)
+
+Estoy construyendo **SyntBot**, un bot privado de moderación para Discord con Node.js, discord.js y PostgreSQL. En esta guía te muestro la base que necesitas para crear el tuyo.
+
+## Requisitos
+
+- Node.js 18 o superior.
+- Una aplicación creada en el [Portal de Desarrolladores de Discord](https://discord.com/developers/applications).
+- Conocimientos básicos de JavaScript.
+
+## Paso 1: Crear el proyecto
+
+```bash
+mkdir mi-bot && cd mi-bot
+npm init -y
+npm install discord.js dotenv
+```
+
+Guarda el token en un archivo `.env` y **nunca lo subas a Git**:
+
+```env
+DISCORD_TOKEN=tu-token
+CLIENT_ID=id-de-tu-aplicacion
+```
+
+## Paso 2: Conectar el bot
+
+```js
+import "dotenv/config";
+import { Client, GatewayIntentBits } from "discord.js";
+
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+});
+
+client.once("clientReady", (c) => {
+  console.log(`Conectado como ${c.user.tag}`);
+});
+
+client.login(process.env.DISCORD_TOKEN);
+```
+
+Los **intents** definen qué eventos recibe tu bot. Pide solo los que necesites: es mejor para la privacidad y evita rechazos de verificación.
+
+## Paso 3: Un comando slash de moderación
+
+Los comandos slash son la forma actual de interactuar con bots. Un ejemplo de `/ban`:
+
+```js
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+
+export const data = new SlashCommandBuilder()
+  .setName("ban")
+  .setDescription("Banea a un usuario del servidor")
+  .addUserOption((o) =>
+    o.setName("usuario").setDescription("Usuario a banear").setRequired(true),
+  )
+  .addStringOption((o) =>
+    o.setName("razon").setDescription("Motivo del baneo"),
+  )
+  .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers);
+
+export async function execute(interaction) {
+  const usuario = interaction.options.getUser("usuario");
+  const razon = interaction.options.getString("razon") ?? "Sin razón indicada";
+
+  await interaction.guild.members.ban(usuario, { reason: razon });
+  await interaction.reply({
+    content: `${usuario.tag} fue baneado. Motivo: ${razon}`,
+    ephemeral: true,
+  });
+}
+```
+
+`setDefaultMemberPermissions` oculta el comando a quien no tiene permiso, pero **verifica los permisos también en el servidor**: no confíes solo en la interfaz.
+
+## Paso 4: Sanciones por niveles
+
+Un sistema de sanciones automatizado funciona mejor con niveles progresivos. Por ejemplo:
+
+1. Primera falta: advertencia.
+2. Segunda: silencio temporal.
+3. Tercera: expulsión.
+4. Reincidencia: baneo.
+
+Para esto necesitas guardar un historial por usuario. Yo uso **PostgreSQL**:
+
+```sql
+CREATE TABLE sanciones (
+  id SERIAL PRIMARY KEY,
+  guild_id TEXT NOT NULL,
+  user_id TEXT NOT NULL,
+  tipo TEXT NOT NULL,
+  razon TEXT,
+  moderador_id TEXT NOT NULL,
+  creado_en TIMESTAMPTZ DEFAULT now()
+);
+```
+
+Con esa tabla puedes contar las faltas de un usuario y decidir la siguiente sanción.
+
+## Paso 5: Logs de moderación
+
+Registrar cada acción en un canal de logs da transparencia al equipo. Guarda quién actuó, sobre quién, cuándo y por qué. Es útil para resolver disputas y para auditar el servidor.
+
+## Buenas prácticas
+
+- **Mínimos permisos**: dale al bot solo los permisos que necesita.
+- **Manejo de errores**: un `try/catch` en cada comando evita que el bot se caiga.
+- **Jerarquía de roles**: un bot no puede moderar a alguien con un rol superior al suyo.
+- **Mensajes efímeros** para respuestas de moderación sensibles.
+
+## Siguientes pasos
+
+Después de la base puedes añadir un panel de administración web, como el que planeo para SyntBot con Vue.js. Mientras tanto, revisa mis otros [proyectos](/projects) y el [repositorio de SyntBot](https://github.com/tuerre/SyntBot).
