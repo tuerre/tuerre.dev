@@ -1,13 +1,10 @@
 import Heading from "@/components/Heading";
-import { cn } from "@/lib/utils";
 
 interface ExperienceItem {
   role: string;
   company: string;
   companyUrl?: string;
-  type: string;
   period?: string;
-  location?: string;
   summary: string;
 }
 
@@ -15,76 +12,70 @@ const experiences: ExperienceItem[] = [
   {
     role: "Full Stack Developer",
     company: "XpertCode",
-    type: "Medio tiempo",
-    period: "Sep 2026 - Actualidad",
-    location: "Santo Domingo, República Dominicana · Presencial",
+    period: "Septiembre 2026 - Actualidad",
     summary:
-      "Desarrollo y mantengo aplicaciones web modernas con JavaScript y TypeScript, construyendo funcionalidades de frontend y backend, e integrando APIs y servicios. Trabajo en equipo con control de versiones, resolviendo problemas y mejorando el rendimiento y la fiabilidad de las aplicaciones.",
+      "Desarrollo de aplicaciones web modernas con JavaScript y TypeScript, de la interfaz al backend, con APIs y servicios integrados que entregan software rápido, estable y listo para escalar.",
   },
   {
     role: "CEO & Founder",
     company: "Kodaris",
     companyUrl: "https://kodaris.dev",
-    type: "Agencia propia",
+    period: "Abril 2026 - Actualidad",
     summary:
-      "Mi propia agencia de desarrollo de software. Diseñamos y construimos aplicaciones web y móviles, CRMs, bots y otras soluciones modernas a medida para negocios que quieren digitalizarse y automatizar sus procesos.",
+      "Desarrollo de software a medida: aplicaciones web y móviles, CRMs, bots y soluciones con inteligencia artificial que automatizan procesos y hacen crecer negocios.",
   },
   {
     role: "Full Stack Developer",
     company: "Instituto Técnico Salesiano (ITESA)",
-    type: "Freelance",
-    period: "Ago 2025 - Feb 2026",
-    location: "Distrito Nacional, República Dominicana · Híbrido",
+    period: "Agosto 2025 - Febrero 2026",
     summary:
-      "Diseñé, desarrollé e implementé software interno para modernizar la operación de mi institución académica, logrando una mejora estimada del 80% en procesos administrativos manuales. Construí sistemas de orientación y psicología estudiantil, gestión pastoral, gestión docente, control de asistencia y organización salesiana.",
+      "Diseñar y desarrollar sistemas institucionales que digitalizaron la orientación y psicología estudiantil, la gestión pastoral, docente y de asistencia, con una mejora estimada del 80% en procesos administrativos manuales.",
   },
 ];
 
 export default function Experience() {
-  const total = experiences.length;
   return (
     <div className="relative">
       <Heading title="Experiencia" />
-      <div className="flex w-full flex-col">
-        {experiences.map((exp, idx) => (
-          <div
-            key={`${exp.company}-${idx}`}
-            className={cn(
-              "flex flex-col gap-2 px-8 py-6 md:px-16 md:py-8",
-              idx < total - 1 && "border-b",
-            )}
-          >
-            <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-              <h2 className="text-foreground text-base font-medium tracking-tight">
-                {exp.role} ·{" "}
+      <div className="px-8 py-8 md:px-16">
+        <ol className="relative">
+          <div className="bg-border absolute top-2 bottom-2 left-[7px] w-px" />
+          {experiences.map((exp, idx) => (
+            <li
+              key={`${exp.company}-${idx}`}
+              className={`relative pl-10 ${idx < experiences.length - 1 ? "pb-10" : ""}`}
+            >
+              <span className="absolute top-1.5 left-0 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#09f]/25 ring-4 ring-[#09f]/10">
+                <span className="h-2 w-2 rounded-full bg-[#09f]" />
+              </span>
+              <h2 className="text-lg font-semibold tracking-tight text-[#09f] md:text-xl">
+                {exp.role}
+              </h2>
+              <h3 className="text-foreground text-base font-semibold tracking-tight md:text-lg">
                 {exp.companyUrl ? (
                   <a
                     href={exp.companyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="hover:underline"
                   >
                     {exp.company}
                   </a>
                 ) : (
-                  <span>{exp.company}</span>
+                  exp.company
                 )}
-              </h2>
+              </h3>
               {exp.period && (
-                <span className="text-muted-foreground font-mono text-[11px]">
+                <p className="text-muted-foreground mt-1 text-sm">
                   {exp.period}
-                </span>
+                </p>
               )}
-            </div>
-            <p className="text-muted-foreground text-xs">
-              {exp.type}
-              {exp.location ? ` · ${exp.location}` : ""}
-            </p>
-            <p className="text-muted-foreground text-xs leading-relaxed">
-              {exp.summary}
-            </p>
-          </div>
-        ))}
+              <p className="text-muted-foreground mt-2 max-w-2xl text-xs leading-relaxed md:text-sm">
+                {exp.summary}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );

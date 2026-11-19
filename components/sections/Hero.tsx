@@ -14,7 +14,7 @@ const words = [
 ];
 
 export default function Hero() {
-  const [isAnime, setIsAnime] = useState(false);
+  const [isAnime, setIsAnime] = useState(true);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [dateTime, setDateTime] = useState("");
