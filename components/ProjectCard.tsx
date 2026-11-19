@@ -52,8 +52,8 @@ export default function ProjectCard({
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-105"
         />
         {award && (
-          <span className="bg-background/80 text-foreground absolute top-2 left-2 rounded-full border px-2.5 py-1 text-[10px] font-medium tracking-tight backdrop-blur-sm">
-            🏅 {award}
+          <span className="absolute top-3 left-3 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-medium tracking-tight text-white shadow-sm backdrop-blur-md">
+            {award}
           </span>
         )}
       </div>

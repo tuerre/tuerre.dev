@@ -37,7 +37,7 @@ export default function Experience() {
   return (
     <div className="relative">
       <Heading title="Experiencia" />
-      <div className="px-8 py-8 md:px-16">
+      <div className="px-8 py-6 md:px-16">
         <ol className="relative">
           <div className="bg-border absolute top-2 bottom-2 left-[7px] w-px" />
           {experiences.map((exp, idx) => (
@@ -45,13 +45,13 @@ export default function Experience() {
               key={`${exp.company}-${idx}`}
               className={`relative pl-10 ${idx < experiences.length - 1 ? "pb-10" : ""}`}
             >
-              <span className="absolute top-1.5 left-0 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#09f]/25 ring-4 ring-[#09f]/10">
-                <span className="h-2 w-2 rounded-full bg-[#09f]" />
+              <span className="absolute top-1 left-0 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-foreground/15 ring-4 ring-foreground/5">
+                <span className="h-2 w-2 rounded-full bg-foreground" />
               </span>
-              <h2 className="text-lg font-semibold tracking-tight text-[#09f] md:text-xl">
+              <h2 className="text-foreground text-sm font-semibold tracking-tight md:text-base">
                 {exp.role}
               </h2>
-              <h3 className="text-foreground text-base font-semibold tracking-tight md:text-lg">
+              <h3 className="text-muted-foreground text-xs font-medium md:text-sm">
                 {exp.companyUrl ? (
                   <a
                     href={exp.companyUrl}
@@ -66,11 +66,11 @@ export default function Experience() {
                 )}
               </h3>
               {exp.period && (
-                <p className="text-muted-foreground mt-1 text-sm">
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {exp.period}
                 </p>
               )}
-              <p className="text-muted-foreground mt-2 max-w-2xl text-xs leading-relaxed md:text-sm">
+              <p className="text-muted-foreground mt-2 max-w-2xl text-xs leading-relaxed">
                 {exp.summary}
               </p>
             </li>
